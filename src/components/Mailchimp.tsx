@@ -13,7 +13,7 @@ import {
 import { Opacity as opacity, SpacingToken } from "@once-ui-system/core";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { put } from "@vercel/blob";
+import { put, PutBlobResult } from "@vercel/blob";
 
 function debounce<T extends (...args: any[]) => void>(
   func: T,
@@ -24,6 +24,35 @@ function debounce<T extends (...args: any[]) => void>(
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), delay);
   }) as T;
+}
+interface VisitorData {
+  identifier: string;
+  email: string;
+  timestamp: string;
+  userAgent: string;
+  language: string;
+  languages: string;
+  platform: string;
+  screen: string;
+  ip: string;
+  referrer: string;
+  page: string;
+  timezone: string;
+}
+
+export interface Lead {
+  identifier: string;
+  email: string;
+  timestamp: string;
+  userAgent: string;
+  language: string;
+  languages: string[];
+  platform: string;
+  screen: {
+    width: number;
+    height: number;
+    colorDepth: number;
+  };
 }
 
 export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
@@ -36,36 +65,40 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
 
   const handleEmailCollection = async () => {
     // Collect as much user data as possible for fingerprinting
-    const visitorData: Record<string, any> = {
+    const visitorData: VisitorData = {
+      // Universal ID (use localStorage or generate a UUID)
+      identifier: (() => {
+        if (typeof window === "undefined") return "";
+        let id = window.localStorage.getItem("identifier");
+        if (!id) {
+          id =
+            (email ? `${email.split("@")[0]}-` : "") +
+            (crypto.randomUUID?.() || Math.random().toString(36).substr(2, 12));
+          window.localStorage.setItem("identifier", id);
+        }
+        return id;
+      })(),
       email,
       timestamp: new Date().toISOString(),
       userAgent:
         typeof window !== "undefined" ? window.navigator.userAgent : "",
       language: typeof window !== "undefined" ? window.navigator.language : "",
       languages:
-        typeof window !== "undefined" ? window.navigator.languages : "",
+        typeof window !== "undefined"
+          ? window.navigator.languages.join(",")
+          : "",
       platform: typeof window !== "undefined" ? window.navigator.platform : "",
-      screen:
+      screen: JSON.stringify(
         typeof window !== "undefined"
           ? {
               width: window.screen.width,
               height: window.screen.height,
               colorDepth: window.screen.colorDepth,
             }
-          : {},
+          : { width: 0, height: 0, colorDepth: 0 },
+      ),
       // Fallback for IP address (requires edge function/serverless function; left as empty here)
       ip: "",
-      // Universal ID (use localStorage or generate a UUID)
-      visitorId: (() => {
-        if (typeof window === "undefined") return "";
-        let id = window.localStorage.getItem("visitorId");
-        if (!id) {
-          id =
-            crypto.randomUUID?.() || Math.random().toString(36).substr(2, 12);
-          window.localStorage.setItem("visitorId", id);
-        }
-        return id;
-      })(),
       referrer: typeof document !== "undefined" ? document.referrer : "",
       page: typeof window !== "undefined" ? window.location.href : "",
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -74,18 +107,20 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
     // push lead to vercel blob storage
     try {
       // put visitor data to vercel blob storage
-      const lead = await put(
-        `leads/${visitorData.visitorId}`,
-        JSON.stringify(visitorData, null, 2),
-        {
-          access: "private",
-          contentType: "application/json",
-          token: process.env.BLOB_READ_WRITE_TOKEN,
-          storeId: process.env.BLOB_STORE_ID,
-        },
-      );
+
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        body: JSON.stringify({ lead: visitorData }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to push lead to vercel blob storage");
+      }
+
+      const data = await response.json();
 
       // TODO: send telegram alert using tg bot API
+      console.info("[RESULT]:", data);
     } catch (error) {
       console.error("Error pushing lead to vercel blob storage", error);
     } finally {
@@ -266,7 +301,6 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
               <Button
                 id="mc-embedded-subscribe"
                 value="Subscribe"
-                onClick={() => console.log("email", email)}
                 size="m"
                 fillWidth
               >
