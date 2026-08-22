@@ -132,6 +132,27 @@ export default async function RootLayout({
             `,
           }}
         />
+        {/* Google Ads signup conversion event */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            function gtagSendEvent(url) {
+              var callback = function () {
+                if (typeof url === 'string') {
+                  window.location = url;
+                }
+              };
+
+              gtag('event', 'ads_conversion_signup', {
+                'event_callback': callback,
+                'event_timeout': 2000
+              });
+
+              return false;
+            }
+          `,
+          }}
+        />
         <meta name="og:title" content={home.title} />
         <meta name="og:description" content={home.description} />
         <meta name="og:image" content={ogImageUrl} />

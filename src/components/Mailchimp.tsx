@@ -81,7 +81,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
         let id = window.localStorage.getItem("identifier");
 
         if (!id) {
-          id = email ? `${email.split("@")[0]}` : `${Date.now()}`;
+          id = email ? `${email.split("@")[0]}` : new Date().toTimeString();
 
           window.localStorage.setItem("identifier", id);
         }
@@ -126,17 +126,6 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
 
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
-
-    // safe check for email
-    if (!email) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
 
     try {
       // Save the lead
@@ -381,28 +370,6 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
           </div>
         </Row>
       </form>
-
-      {/* Google Ads signup conversion event */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            function gtagSendEvent(url) {
-              var callback = function () {
-                if (typeof url === 'string') {
-                  window.location = url;
-                }
-              };
-
-              gtag('event', 'ads_conversion_signup', {
-                'event_callback': callback,
-                'event_timeout': 2000
-              });
-
-              return false;
-            }
-          `,
-        }}
-      />
     </Column>
   );
 };
