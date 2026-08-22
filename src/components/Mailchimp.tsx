@@ -169,6 +169,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
       // Do not count this as a conversion.
       // Do not redirect if the lead wasn't successfully stored.
     } finally {
+      window.whop?.track("lead");
       setIsSubmitting(false);
     }
   };
