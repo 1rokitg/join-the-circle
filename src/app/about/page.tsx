@@ -4,16 +4,17 @@ import {
   Column,
   Heading,
   Icon,
-  IconButton,
   Media,
   Tag,
   Text,
   Meta,
   Schema,
   Row,
+  IconButton,
 } from "@once-ui-system/core";
 import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
+import TrackedCalendarButton from "./components/book-a-call";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
 
@@ -50,6 +51,7 @@ export default function About() {
       items: about.technical.skills.map((skill) => skill.title),
     },
   ];
+
   return (
     <Column maxWidth="m">
       <Schema
@@ -65,6 +67,7 @@ export default function About() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
+
       {about.tableOfContent.display && (
         <Column
           left="0"
@@ -77,6 +80,7 @@ export default function About() {
           <TableOfContents structure={structure} about={about} />
         </Column>
       )}
+
       <Row fillWidth s={{ direction: "column" }} horizontal="center">
         {about.avatar.display && (
           <Column
@@ -94,10 +98,12 @@ export default function About() {
             horizontal="center"
           >
             <Avatar src={person.avatar} size="xl" />
+
             <Row gap="8" vertical="center">
               <Icon onBackground="accent-weak" name="globe" />
               {person.location}
             </Row>
+
             {person.languages && person.languages.length > 0 && (
               <Row wrap gap="8">
                 {person.languages.map((language, index) => (
@@ -109,6 +115,7 @@ export default function About() {
             )}
           </Column>
         )}
+
         <Column className={styles.blockAlign} flex={9} maxWidth={40}>
           <Column
             id={about.intro.title}
@@ -137,18 +144,17 @@ export default function About() {
                   name="calendar"
                   onBackground="brand-weak"
                 />
+
                 <Row paddingX="8">Schedule a call</Row>
-                <IconButton
-                  href={about.calendar.link}
-                  data-border="rounded"
-                  variant="secondary"
-                  icon="chevronRight"
-                />
+
+                <TrackedCalendarButton href={about.calendar.link} />
               </Row>
             )}
+
             <Heading className={styles.textAlign} variant="display-strong-xl">
               {person.name}
             </Heading>
+
             <Text
               className={styles.textAlign}
               variant="display-default-xs"
@@ -156,6 +162,7 @@ export default function About() {
             >
               {person.role}
             </Text>
+
             {social.length > 0 && (
               <Row
                 className={styles.blockAlign}
@@ -184,6 +191,7 @@ export default function About() {
                               variant="secondary"
                             />
                           </Row>
+
                           <Row hide s={{ hide: false }}>
                             <IconButton
                               size="l"
@@ -221,15 +229,18 @@ export default function About() {
               >
                 {about.technical.title}
               </Heading>
+
               <Column fillWidth gap="l">
                 {about.technical.skills.map((skill, index) => (
                   <Column key={`${skill}-${index}`} fillWidth gap="4">
                     <Text id={skill.title} variant="heading-strong-l">
                       {skill.title}
                     </Text>
+
                     <Text variant="body-default-m" onBackground="neutral-weak">
                       {skill.description}
                     </Text>
+
                     {skill.tags && skill.tags.length > 0 && (
                       <Row wrap gap="8" paddingTop="8">
                         {skill.tags.map((tag, tagIndex) => (
@@ -243,6 +254,7 @@ export default function About() {
                         ))}
                       </Row>
                     )}
+
                     {skill.images && skill.images.length > 0 && (
                       <Row fillWidth paddingTop="m" gap="12" wrap>
                         {skill.images.map((image, index) => (
@@ -271,6 +283,28 @@ export default function About() {
           )}
         </Column>
       </Row>
+
+      {/* Google Ads click-conversion event snippet */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            function gtagSendEvent(url) {
+              var callback = function () {
+                if (typeof url === 'string') {
+                  window.location = url;
+                }
+              };
+
+              gtag('event', 'ads_conversion_about_page_view', {
+                'event_callback': callback,
+                'event_timeout': 2000
+              });
+
+              return false;
+            }
+          `,
+        }}
+      />
     </Column>
   );
 }
