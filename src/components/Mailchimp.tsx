@@ -71,6 +71,9 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // log view content
+  window.whop?.track("view_content");
+
   const handleEmailCollection = async () => {
     setIsSubmitting(true);
     // Collect as much user data as possible for fingerprinting
