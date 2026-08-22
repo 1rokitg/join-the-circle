@@ -62,6 +62,20 @@ export default async function RootLayout({
     >
       <head>
         <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-H28CF56TD1"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-H28CF56TD1');
+          `,
+          }}
+        />
+        <script
           id="theme-init"
           dangerouslySetInnerHTML={{
             __html: `
@@ -122,7 +136,6 @@ export default async function RootLayout({
         <meta name="og:description" content={home.description} />
         <meta name="og:image" content={ogImageUrl} />
         <meta name="og:url" content={siteUrl + home.path} />
-
         <meta name="twitter:title" content={home.title} />
         <meta name="twitter:description" content={home.description} />
         <meta name="twitter:image" content={ogImageUrl} />
