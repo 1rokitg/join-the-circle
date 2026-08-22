@@ -81,7 +81,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
         let id = window.localStorage.getItem("identifier");
 
         if (!id) {
-          id = email ? `${email.split("@")[0]}-` : "";
+          id = email ? `${email.split("@")[0]}` : `${Date.now()}`;
 
           window.localStorage.setItem("identifier", id);
         }
@@ -126,6 +126,17 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
 
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
+
+    // safe check for email
+    if (!email) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
 
     try {
       // Save the lead
