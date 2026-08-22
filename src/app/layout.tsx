@@ -112,6 +112,24 @@ export default async function RootLayout({
             `,
           }}
         />
+        <meta name="og:title" content={home.title} />
+        <meta name="og:description" content={home.description} />
+        <meta
+          name="og:image"
+          content={`${
+            process.env.VERCEL_URL ? "https://" + process.env.VERCEL_URL : ""
+          }/api/og/fetch?url=${home.path}`}
+        />
+
+        <meta name="twitter:title" content={home.title} />
+        <meta name="twitter:description" content={home.description} />
+        <meta
+          name="twitter:image"
+          content={`${
+            process.env.VERCEL_URL ? "https://" + process.env.VERCEL_URL : ""
+          }/api/og/fetch?url=${home.path}`}
+        />
+        <meta name="twitter:card" content="summary_large_image" />
       </head>
 
       <Providers>
