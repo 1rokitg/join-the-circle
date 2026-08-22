@@ -24,6 +24,8 @@ import {
   person,
 } from "@/resources";
 
+import { Analytics } from "@vercel/analytics/next";
+
 export async function generateMetadata() {
   return Meta.generate({
     title: home.title,
@@ -111,6 +113,7 @@ export default async function RootLayout({
           }}
         />
       </head>
+
       <Providers>
         <Column
           as="body"
@@ -173,6 +176,8 @@ export default async function RootLayout({
           <Footer />
         </Column>
       </Providers>
+
+      <Analytics />
     </Flex>
   );
 }
