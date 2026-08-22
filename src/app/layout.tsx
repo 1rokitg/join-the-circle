@@ -118,7 +118,13 @@ export default async function RootLayout({
           name="og:image"
           content={`${
             process.env.VERCEL_URL ? "https://" + process.env.VERCEL_URL : ""
-          }/api/og/fetch?url=${home.path}`}
+          }/api/og/fetch?url=${home.image}`}
+        />
+        <meta
+          name="og:url"
+          content={`${
+            process.env.VERCEL_URL ? "https://" + process.env.VERCEL_URL : ""
+          }${home.path}`}
         />
 
         <meta name="twitter:title" content={home.title} />
@@ -127,7 +133,7 @@ export default async function RootLayout({
           name="twitter:image"
           content={`${
             process.env.VERCEL_URL ? "https://" + process.env.VERCEL_URL : ""
-          }/api/og/fetch?url=${home.path}`}
+          }/api/og/fetch?url=${home.image}`}
         />
         <meta name="twitter:card" content="summary_large_image" />
       </head>
