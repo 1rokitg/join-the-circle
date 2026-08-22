@@ -69,8 +69,10 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
   const [error, setError] = useState<string>("");
   const [touched, setTouched] = useState<boolean>(false);
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleEmailCollection = async () => {
+    setIsSubmitting(true);
     // Collect as much user data as possible for fingerprinting
     const visitorData: VisitorData = {
       identifier: (() => {
@@ -79,9 +81,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
         let id = window.localStorage.getItem("identifier");
 
         if (!id) {
-          id =
-            (email ? `${email.split("@")[0]}-` : "") +
-            (crypto.randomUUID?.() || Math.random().toString(36).substr(2, 12));
+          id = email ? `${email.split("@")[0]}-` : "";
 
           window.localStorage.setItem("identifier", id);
         }
@@ -168,6 +168,8 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
 
       // Do not count this as a conversion.
       // Do not redirect if the lead wasn't successfully stored.
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -357,6 +359,8 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
               <Button
                 id="mc-embedded-subscribe"
                 value="Subscribe"
+                type="submit"
+                disabled={isSubmitting}
                 size="m"
                 fillWidth
               >

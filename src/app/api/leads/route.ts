@@ -13,6 +13,7 @@ export async function POST(request: Request) {
         access: "private",
         contentType: "application/json",
         token: process.env.BLOB_READ_WRITE_TOKEN,
+        addRandomSuffix: true,
       },
     );
 
