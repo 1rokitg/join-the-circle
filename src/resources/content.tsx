@@ -82,7 +82,7 @@ const home: Home = {
         </Text>
       </Row>
     ),
-    href: "https://discord.gg/AdzKpMFKga",
+    href: "https://whop.com/the-circle-vip",
   },
   subline: (
     <>
