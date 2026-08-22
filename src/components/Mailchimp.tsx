@@ -1,11 +1,24 @@
 "use client";
 
 import { mailchimp, newsletter } from "@/resources";
-import { Button, Heading, Input, Text, Background, Column, Row } from "@once-ui-system/core";
-import { opacity, SpacingToken } from "@once-ui-system/core";
+import {
+  Button,
+  Heading,
+  Input,
+  Text,
+  Background,
+  Column,
+  Row,
+} from "@once-ui-system/core";
+import { Opacity as opacity, SpacingToken } from "@once-ui-system/core";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { put } from "@vercel/blob";
 
-function debounce<T extends (...args: any[]) => void>(func: T, delay: number): T {
+function debounce<T extends (...args: any[]) => void>(
+  func: T,
+  delay: number,
+): T {
   let timeout: ReturnType<typeof setTimeout>;
   return ((...args: Parameters<T>) => {
     clearTimeout(timeout);
@@ -13,10 +26,72 @@ function debounce<T extends (...args: any[]) => void>(func: T, delay: number): T
   }) as T;
 }
 
-export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...flex }) => {
+export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
+  ...flex
+}) => {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [touched, setTouched] = useState<boolean>(false);
+  const router = useRouter();
+
+  const handleEmailCollection = async () => {
+    // Collect as much user data as possible for fingerprinting
+    const visitorData: Record<string, any> = {
+      email,
+      timestamp: new Date().toISOString(),
+      userAgent:
+        typeof window !== "undefined" ? window.navigator.userAgent : "",
+      language: typeof window !== "undefined" ? window.navigator.language : "",
+      languages:
+        typeof window !== "undefined" ? window.navigator.languages : "",
+      platform: typeof window !== "undefined" ? window.navigator.platform : "",
+      screen:
+        typeof window !== "undefined"
+          ? {
+              width: window.screen.width,
+              height: window.screen.height,
+              colorDepth: window.screen.colorDepth,
+            }
+          : {},
+      // Fallback for IP address (requires edge function/serverless function; left as empty here)
+      ip: "",
+      // Universal ID (use localStorage or generate a UUID)
+      visitorId: (() => {
+        if (typeof window === "undefined") return "";
+        let id = window.localStorage.getItem("visitorId");
+        if (!id) {
+          id =
+            crypto.randomUUID?.() || Math.random().toString(36).substr(2, 12);
+          window.localStorage.setItem("visitorId", id);
+        }
+        return id;
+      })(),
+      referrer: typeof document !== "undefined" ? document.referrer : "",
+      page: typeof window !== "undefined" ? window.location.href : "",
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    };
+
+    // push lead to vercel blob storage
+    try {
+      // put visitor data to vercel blob storage
+      const lead = await put(
+        `leads/${visitorData.visitorId}`,
+        JSON.stringify(visitorData, null, 2),
+        {
+          access: "private",
+          contentType: "application/json",
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+          storeId: process.env.BLOB_STORE_ID,
+        },
+      );
+
+      // TODO: send telegram alert using tg bot API
+    } catch (error) {
+      console.error("Error pushing lead to vercel blob storage", error);
+    } finally {
+      router.push("https://rokitg.substack.com/subscribe");
+    }
+  };
 
   const validateEmail = (email: string): boolean => {
     if (email === "") {
@@ -108,7 +183,12 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
         <Heading marginBottom="s" variant="display-strong-xs">
           {newsletter.title}
         </Heading>
-        <Text wrap="balance" marginBottom="l" variant="body-default-l" onBackground="neutral-weak">
+        <Text
+          wrap="balance"
+          marginBottom="l"
+          variant="body-default-l"
+          onBackground="neutral-weak"
+        >
           {newsletter.description}
         </Text>
       </Column>
@@ -118,7 +198,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
           display: "flex",
           justifyContent: "center",
         }}
-        action={mailchimp.action}
+        action={handleEmailCollection}
         method="post"
         id="mc-embedded-subscribe-form"
         name="mc-embedded-subscribe-form"
@@ -158,10 +238,21 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
             />
           </div>
           <div id="mce-responses" className="clearfalse">
-            <div className="response" id="mce-error-response" style={{ display: "none" }}></div>
-            <div className="response" id="mce-success-response" style={{ display: "none" }}></div>
+            <div
+              className="response"
+              id="mce-error-response"
+              style={{ display: "none" }}
+            ></div>
+            <div
+              className="response"
+              id="mce-success-response"
+              style={{ display: "none" }}
+            ></div>
           </div>
-          <div aria-hidden="true" style={{ position: "absolute", left: "-5000px" }}>
+          <div
+            aria-hidden="true"
+            style={{ position: "absolute", left: "-5000px" }}
+          >
             <input
               type="text"
               readOnly
@@ -172,7 +263,13 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
           </div>
           <div className="clear">
             <Row height="48" vertical="center">
-              <Button id="mc-embedded-subscribe" value="Subscribe" size="m" fillWidth>
+              <Button
+                id="mc-embedded-subscribe"
+                value="Subscribe"
+                onClick={() => console.log("email", email)}
+                size="m"
+                fillWidth
+              >
                 Subscribe
               </Button>
             </Row>
