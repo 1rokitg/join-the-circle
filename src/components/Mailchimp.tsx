@@ -13,18 +13,25 @@ import {
 import { Opacity as opacity, SpacingToken } from "@once-ui-system/core";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { put, PutBlobResult } from "@vercel/blob";
+
+declare global {
+  interface Window {
+    gtagSendEvent?: (url: string) => boolean;
+  }
+}
 
 function debounce<T extends (...args: any[]) => void>(
   func: T,
   delay: number,
 ): T {
   let timeout: ReturnType<typeof setTimeout>;
+
   return ((...args: Parameters<T>) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), delay);
   }) as T;
 }
+
 interface VisitorData {
   identifier: string;
   email: string;
@@ -66,28 +73,37 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
   const handleEmailCollection = async () => {
     // Collect as much user data as possible for fingerprinting
     const visitorData: VisitorData = {
-      // Universal ID (use localStorage or generate a UUID)
       identifier: (() => {
         if (typeof window === "undefined") return "";
+
         let id = window.localStorage.getItem("identifier");
+
         if (!id) {
           id =
             (email ? `${email.split("@")[0]}-` : "") +
             (crypto.randomUUID?.() || Math.random().toString(36).substr(2, 12));
+
           window.localStorage.setItem("identifier", id);
         }
+
         return id;
       })(),
+
       email,
       timestamp: new Date().toISOString(),
+
       userAgent:
         typeof window !== "undefined" ? window.navigator.userAgent : "",
+
       language: typeof window !== "undefined" ? window.navigator.language : "",
+
       languages:
         typeof window !== "undefined"
           ? window.navigator.languages.join(",")
           : "",
+
       platform: typeof window !== "undefined" ? window.navigator.platform : "",
+
       screen: JSON.stringify(
         typeof window !== "undefined"
           ? {
@@ -95,36 +111,63 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
               height: window.screen.height,
               colorDepth: window.screen.colorDepth,
             }
-          : { width: 0, height: 0, colorDepth: 0 },
+          : {
+              width: 0,
+              height: 0,
+              colorDepth: 0,
+            },
       ),
-      // Fallback for IP address (requires edge function/serverless function; left as empty here)
+
       ip: "",
+
       referrer: typeof document !== "undefined" ? document.referrer : "",
+
       page: typeof window !== "undefined" ? window.location.href : "",
+
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
-    // push lead to vercel blob storage
     try {
-      // put visitor data to vercel blob storage
-
+      // Save the lead
       const response = await fetch("/api/leads", {
         method: "POST",
         body: JSON.stringify({ lead: visitorData }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to push lead to vercel blob storage");
+        throw new Error("Failed to push lead to Vercel Blob storage");
       }
 
       const data = await response.json();
 
-      // TODO: send telegram alert using tg bot API
       console.info("[RESULT]:", data);
+
+      /*
+       * Google Ads conversion event.
+       *
+       * This follows the Google-provided event snippet:
+       *
+       * gtag('event', 'ads_conversion_signup', {
+       *   'event_callback': callback,
+       *   'event_timeout': 2000
+       * });
+       *
+       * We fire it only after the lead was successfully stored.
+       */
+      if (
+        typeof window !== "undefined" &&
+        typeof window.gtagSendEvent === "function"
+      ) {
+        window.gtagSendEvent("https://rokitg.substack.com/subscribe");
+      } else {
+        // If the Google tag isn't available, don't block the user.
+        router.push("https://rokitg.substack.com/subscribe");
+      }
     } catch (error) {
-      console.error("Error pushing lead to vercel blob storage", error);
-    } finally {
-      router.push("https://rokitg.substack.com/subscribe");
+      console.error("Error pushing lead to Vercel Blob storage", error);
+
+      // Do not count this as a conversion.
+      // Do not redirect if the lead wasn't successfully stored.
     }
   };
 
@@ -139,6 +182,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+
     setEmail(value);
 
     if (!validateEmail(value)) {
@@ -152,6 +196,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
 
   const handleBlur = () => {
     setTouched(true);
+
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
     }
@@ -214,10 +259,12 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
           color: mailchimp.effects.lines.color,
         }}
       />
+
       <Column maxWidth="xs" horizontal="center">
         <Heading marginBottom="s" variant="display-strong-xs">
           {newsletter.title}
         </Heading>
+
         <Text
           wrap="balance"
           marginBottom="l"
@@ -227,6 +274,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
           {newsletter.description}
         </Text>
       </Column>
+
       <form
         style={{
           width: "100%",
@@ -262,6 +310,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
             onBlur={handleBlur}
             errorMessage={error}
           />
+
           <div style={{ display: "none" }}>
             <input
               type="checkbox"
@@ -272,21 +321,27 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
               checked
             />
           </div>
+
           <div id="mce-responses" className="clearfalse">
             <div
               className="response"
               id="mce-error-response"
               style={{ display: "none" }}
-            ></div>
+            />
+
             <div
               className="response"
               id="mce-success-response"
               style={{ display: "none" }}
-            ></div>
+            />
           </div>
+
           <div
             aria-hidden="true"
-            style={{ position: "absolute", left: "-5000px" }}
+            style={{
+              position: "absolute",
+              left: "-5000px",
+            }}
           >
             <input
               type="text"
@@ -296,6 +351,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
               value=""
             />
           </div>
+
           <div className="clear">
             <Row height="48" vertical="center">
               <Button
@@ -310,6 +366,28 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
           </div>
         </Row>
       </form>
+
+      {/* Google Ads signup conversion event */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            function gtagSendEvent(url) {
+              var callback = function () {
+                if (typeof url === 'string') {
+                  window.location = url;
+                }
+              };
+
+              gtag('event', 'ads_conversion_signup', {
+                'event_callback': callback,
+                'event_timeout': 2000
+              });
+
+              return false;
+            }
+          `,
+        }}
+      />
     </Column>
   );
 };
