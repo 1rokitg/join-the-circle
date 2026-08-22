@@ -45,7 +45,7 @@ export default async function RootLayout({
     ? `https://${process.env.VERCEL_URL}`
     : "http://localhost:3000";
 
-  const ogImageUrl = `${siteUrl}${home.image}`;
+  const ogImageUrl = "https://rokitg.com/images/og/home.jpg";
 
   return (
     <Flex
