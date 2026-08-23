@@ -35,7 +35,7 @@ const social: Social = [
   {
     name: "Discord",
     icon: "discord",
-    link: "https://discord.gg/AdzKpMFKga",
+    link: "https://discord.gg/D9FwZsgGxd",
     essential: true,
   },
   {
