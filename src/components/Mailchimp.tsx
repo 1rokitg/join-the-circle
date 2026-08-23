@@ -12,7 +12,6 @@ import {
 } from "@once-ui-system/core";
 import { Opacity as opacity, SpacingToken } from "@once-ui-system/core";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 declare global {
   interface Window {
@@ -67,46 +66,39 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
 }) => {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [touched, setTouched] = useState<boolean>(false);
-  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // log view content
   window.whop?.track("view_content");
 
-  const handleEmailCollection = async () => {
+  const handleEmailCollection = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const submittedEmail = String(formData.get("EMAIL") ?? "").trim();
+
+    if (!submittedEmail) {
+      setError("Please enter your email address.");
+      return;
+    }
+
+    if (!validateEmail(submittedEmail)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
     setIsSubmitting(true);
-    // Collect as much user data as possible for fingerprinting
+
     const visitorData: VisitorData = {
-      identifier: (() => {
-        if (typeof window === "undefined") return "";
-
-        let id = window.localStorage.getItem("identifier");
-
-        if (!id) {
-          id = email ? `${email.split("@")[0]}` : new Date().toTimeString();
-
-          window.localStorage.setItem("identifier", id);
-        }
-
-        return id;
-      })(),
-
-      email,
+      identifier: submittedEmail.split("@")[0],
+      email: submittedEmail,
       timestamp: new Date().toISOString(),
-
-      userAgent:
-        typeof window !== "undefined" ? window.navigator.userAgent : "",
-
-      language: typeof window !== "undefined" ? window.navigator.language : "",
-
-      languages:
-        typeof window !== "undefined"
-          ? window.navigator.languages.join(",")
-          : "",
-
-      platform: typeof window !== "undefined" ? window.navigator.platform : "",
-
+      userAgent: window.navigator.userAgent,
+      language: window.navigator.language,
+      languages: window.navigator.languages.join(","),
+      platform: window.navigator.platform,
       screen: JSON.stringify(
         typeof window !== "undefined"
           ? {
@@ -120,68 +112,40 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
               colorDepth: 0,
             },
       ),
-
       ip: "",
-
       referrer: typeof document !== "undefined" ? document.referrer : "",
-
       page: typeof window !== "undefined" ? window.location.href : "",
-
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
 
     try {
-      // Save the lead
       const response = await fetch("/api/leads", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ lead: visitorData }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to push lead to Vercel Blob storage");
+        throw new Error("Failed to push lead: " + response.statusText);
       }
 
-      const data = await response.json();
-
-      console.info("[RESULT]:", data);
-
-      /*
-       * Google Ads conversion event.
-       *
-       * This follows the Google-provided event snippet:
-       *
-       * gtag('event', 'ads_conversion_signup', {
-       *   'event_callback': callback,
-       *   'event_timeout': 2000
-       * });
-       *
-       * We fire it only after the lead was successfully stored.
-       */
+      // ...
       if (
         typeof window !== "undefined" &&
         typeof window.gtagSendEvent === "function"
       ) {
         window.gtagSendEvent("https://rokitg.substack.com/subscribe");
       } else {
-        // If the Google tag isn't available, don't block the user.
-        router.push("https://rokitg.substack.com/subscribe");
+        window.location.href = "https://rokitg.substack.com/subscribe";
       }
-    } catch (error) {
-      console.error("Error pushing lead to Vercel Blob storage", error);
-
-      // Do not count this as a conversion.
-      // Do not redirect if the lead wasn't successfully stored.
     } finally {
-      window.whop?.track("lead");
       setIsSubmitting(false);
     }
   };
 
   const validateEmail = (email: string): boolean => {
-    if (email === "") {
-      return true;
-    }
-
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   };
@@ -198,11 +162,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
     }
   };
 
-  const debouncedHandleChange = debounce(handleChange, 2000);
-
   const handleBlur = () => {
-    setTouched(true);
-
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
     }
@@ -287,7 +247,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
           display: "flex",
           justifyContent: "center",
         }}
-        action={handleEmailCollection}
+        onSubmit={handleEmailCollection}
         method="post"
         id="mc-embedded-subscribe-form"
         name="mc-embedded-subscribe-form"
@@ -300,19 +260,13 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
           gap="8"
         >
           <Input
-            formNoValidate
             id="mce-EMAIL"
             name="EMAIL"
             type="email"
             placeholder="Email"
             required
-            onChange={(e) => {
-              if (error) {
-                handleChange(e);
-              } else {
-                debouncedHandleChange(e);
-              }
-            }}
+            value={email}
+            onChange={handleChange}
             onBlur={handleBlur}
             errorMessage={error}
           />
