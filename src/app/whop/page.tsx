@@ -22,11 +22,11 @@ export default function NotFound() {
       <img
         src="/images/whop.png"
         alt="Whop Logo"
-        style={{ width: 64, height: 64 }}
+        style={{ width: 64, height: 64, marginBottom: 16 }}
         className="rounded-full"
       />
-      <Heading marginBottom="l" variant="display-default-xs">
-        Retirecting to Whop...
+      <Heading marginBottom="s" variant="display-default-xs">
+        Redirecting to Whop...
       </Heading>
       <Text onBackground="neutral-weak">{secondsLeft} seconds left</Text>
     </Column>
