@@ -75,12 +75,14 @@ const home: Home = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <img
-          src="/images/whop.png"
-          alt="Whop Logo"
-          style={{ width: 26, height: 26, marginRight: 4 }}
-          className="rounded-full"
-        />
+        <div className="rounded-full">
+          <img
+            src="/images/whop.png"
+            alt="Whop Logo"
+            style={{ width: 26, height: 26, marginRight: 4 }}
+            className="rounded-full"
+          />
+        </div>
         <strong className="ml-2">The Circle</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
