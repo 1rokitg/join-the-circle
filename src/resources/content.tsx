@@ -9,6 +9,7 @@ import {
   Work,
 } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
+import Image from "next/image";
 
 const person: Person = {
   firstName: "Rokit",
@@ -75,12 +76,13 @@ const home: Home = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <div className="rounded-full">
-          <img
+        <div className="rounded-full overflow-hidden">
+          <Image
             src="/images/whop.png"
             alt="Whop Logo"
-            style={{ width: 26, height: 26, marginRight: 4 }}
-            className="rounded-full"
+            width={26}
+            height={26}
+            className="object-contain"
           />
         </div>
         <strong className="ml-2">The Circle</strong>{" "}
