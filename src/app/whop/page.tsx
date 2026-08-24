@@ -8,7 +8,7 @@ export default function NotFound() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setSecondsLeft(secondsLeft - 1);
+      setSecondsLeft((prev) => Math.max(prev - 1, 0));
     }, 1000);
     return () => clearInterval(interval);
   }, [secondsLeft]);
