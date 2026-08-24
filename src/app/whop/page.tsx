@@ -22,7 +22,7 @@ export default function NotFound() {
       <img
         src="/images/whop.png"
         alt="Whop Logo"
-        style={{ width: 26, height: 26, marginRight: 4 }}
+        style={{ width: 64, height: 64 }}
         className="rounded-full"
       />
       <Heading marginBottom="l" variant="display-default-xs">
