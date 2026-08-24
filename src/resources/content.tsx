@@ -79,8 +79,9 @@ const home: Home = {
           src="/images/whop.png"
           alt="Whop Logo"
           style={{ width: 26, height: 26, marginRight: 4 }}
+          className="rounded-full"
         />
-        <strong className="ml-4">The Circle</strong>{" "}
+        <strong className="ml-2">The Circle</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           What's inside?
