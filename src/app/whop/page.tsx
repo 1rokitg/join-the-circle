@@ -14,7 +14,7 @@ export default function NotFound() {
   }, [secondsLeft]);
 
   if (secondsLeft <= 0) {
-    window.location.href = "https://whop.com/rokitg";
+    window.location.href = "https://whop.com/rokitg/products";
   }
 
   return (

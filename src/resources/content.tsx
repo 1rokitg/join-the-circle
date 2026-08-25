@@ -69,8 +69,8 @@ const home: Home = {
   path: "/",
   image: "/images/og/home.jpg",
   label: "Home",
-  title: `${person.name}'s Portfolio`,
-  description: `Portfolio website showcasing my work as a ${person.role}`,
+  title: "ROKITG.COM",
+  description: `Building bridges between traders and ideas`,
   headline: <>Building bridges between traders and ideas</>,
   featured: {
     display: true,
@@ -90,7 +90,7 @@ const home: Home = {
         </Text>
       </Row>
     ),
-    href: "https://whop.com/rokitg",
+    href: "https://whop.com/rokitg/products",
   },
   subline: (
     <>
