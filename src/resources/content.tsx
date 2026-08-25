@@ -1,7 +1,7 @@
 import {
   About,
   Blog,
-  Gallery,
+  Whop,
   Home,
   Newsletter,
   Person,
@@ -247,11 +247,11 @@ const work: Work = {
   // All projects will be listed on the /home and /work routes
 };
 
-const gallery: Gallery = {
-  path: "/gallery",
-  label: "Gallery",
-  title: `Photo gallery – ${person.name}`,
-  description: `A photo collection by ${person.name}`,
+const whop: Whop = {
+  path: "/whop",
+  label: "Whop",
+  title: `Whop – ${person.name}`,
+  description: `Whop products by ${person.name}`,
   // Images by https://lorant.one
   // These are placeholder images, replace with your own
   images: [
@@ -298,4 +298,4 @@ const gallery: Gallery = {
   ],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+export { person, social, newsletter, home, about, blog, work, whop };
