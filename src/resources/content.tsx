@@ -70,8 +70,8 @@ const home: Home = {
   image: "/images/og/home.jpg",
   label: "Home",
   title: "ROKITG.COM",
-  description: `Building bridges between traders and ideas`,
-  headline: <>Building bridges between traders and ideas</>,
+  description: `Learn how unprofitable traders are becoming the top 2%`,
+  headline: <> How unprofitable traders are becoming the top 2%</>,
   featured: {
     display: true,
     title: (
@@ -81,9 +81,9 @@ const home: Home = {
           alt="Whop Logo"
           width={26}
           height={26}
-          className="object-contain rounded-full"
+          style={{ width: "26px", height: "26px", borderRadius: "50%" }}
         />
-        <strong className="ml-2">The Circle</strong>{" "}
+        <strong className="ml-0">The Circle</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           What's inside?
