@@ -14,7 +14,7 @@ export default function NotFound() {
   }, [secondsLeft]);
 
   if (secondsLeft <= 0) {
-    window.location.href = "https://whop.com/the-circle-vip/buy-season-pass/";
+    window.location.href = "https://whop.com/rokitg";
   }
 
   return (

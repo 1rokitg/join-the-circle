@@ -76,15 +76,13 @@ const home: Home = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <div className="rounded-full overflow-hidden">
-          <Image
-            src="/images/whop.png"
-            alt="Whop Logo"
-            width={26}
-            height={26}
-            className="object-contain"
-          />
-        </div>
+        <Image
+          src="/images/whop.png"
+          alt="Whop Logo"
+          width={26}
+          height={26}
+          className="object-contain rounded-full"
+        />
         <strong className="ml-2">The Circle</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
@@ -92,7 +90,7 @@ const home: Home = {
         </Text>
       </Row>
     ),
-    href: "https://whop.com/the-circle-vip/buy-season-pass/",
+    href: "https://whop.com/rokitg",
   },
   subline: (
     <>
