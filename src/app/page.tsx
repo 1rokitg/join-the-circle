@@ -26,8 +26,6 @@ export async function generateMetadata() {
 }
 
 export default async function Home() {
-  const showTrustBadges = (await trustBadges()) as boolean;
-
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
       <Schema
@@ -94,7 +92,7 @@ export default async function Home() {
         </Column>
       </Column>
 
-      <CallToAction trustBadges={showTrustBadges} />
+      <CallToAction trustBadges={true} />
 
       <Mailchimp />
     </Column>
