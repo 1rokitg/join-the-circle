@@ -2,6 +2,7 @@
 
 import { newsletter } from "@/resources";
 import { Button, Column, Text } from "@once-ui-system/core";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 declare global {
@@ -67,6 +68,16 @@ export const CallToAction: React.FC<React.ComponentProps<typeof Column>> = ({
           maxWidth: 950,
         }}
       >
+        <Image
+          src="/images/trust-badges.webp"
+          alt="Trust Badges"
+          width={462}
+          height={70}
+          style={{
+            width: "80%",
+            height: "auto",
+          }}
+        />
         {/* VIDEO */}
         <button
           type="button"

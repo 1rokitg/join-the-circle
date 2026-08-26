@@ -14,7 +14,7 @@ export default function NotFound() {
   }, [secondsLeft]);
 
   if (secondsLeft <= 0) {
-    window.location.href = "https://whop.com/rokitg/products";
+    window.location.href = "https://whop.com/rokitg";
   }
 
   return (
@@ -22,7 +22,7 @@ export default function NotFound() {
       <img
         src="/images/whop.png"
         alt="Whop Logo"
-        style={{ width: 64, height: 64, marginBottom: 16 }}
+        style={{ width: 64, height: 64, marginBottom: 16, borderRadius: "50%" }}
         className="rounded-full"
       />
       <Heading marginBottom="s" variant="display-default-xs">

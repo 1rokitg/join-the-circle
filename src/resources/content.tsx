@@ -76,21 +76,23 @@ const home: Home = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <Image
-          src="/images/whop.png"
-          alt="Whop Logo"
-          width={26}
-          height={26}
-          style={{ width: "26px", height: "26px", borderRadius: "50%" }}
-        />
-        <strong className="ml-0">The Circle</strong>{" "}
+        <Row gap="8" vertical="center">
+          <Image
+            src="/images/whop.png"
+            alt="Whop Logo"
+            width={26}
+            height={26}
+            style={{ width: "26px", height: "26px", borderRadius: "50%" }}
+          />
+          <strong className="">The Circle</strong>
+        </Row>
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           What's inside?
         </Text>
       </Row>
     ),
-    href: "https://whop.com/rokitg/products",
+    href: "https://whop.com/rokitg",
   },
   subline: (
     <>
