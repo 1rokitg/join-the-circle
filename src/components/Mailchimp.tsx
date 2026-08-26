@@ -331,16 +331,6 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
           </div>
         </Row>
       </form>
-      <script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=AW-18179035088"
-      ></script>
-      <script>
-        window.dataLayer = window.dataLayer || []; function gtag() //
-        {window.dataLayer.push()} // @ts-ignore gtag('js', new Date());
-        gtag('setScope', 'biz_ROKYKZdV9YGZP7'); gtag('track', 'view_content');
-        gtag('config', 'AW-18179035088');
-      </script>
     </Column>
   );
 };
