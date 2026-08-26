@@ -14,7 +14,6 @@ import {
 import { home, about, person, baseURL, routes } from "@/resources";
 
 import { CallToAction } from "@/components/cta";
-import { ApplicationForm } from "@/components/entry-form";
 import { Mailchimp } from "@/components";
 
 export async function generateMetadata() {

@@ -69,7 +69,6 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // log view content
-  window.whop?.track("view_content");
 
   const handleEmailCollection = async (
     event: React.FormEvent<HTMLFormElement>,
