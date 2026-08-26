@@ -325,7 +325,8 @@ export const CallToAction: React.FC<React.ComponentProps<typeof Column>> = ({
               opacity: 0.75,
             }}
           >
-            Acceso gratuito · Sin compromiso
+            Introduce tu correo electrónico y te enviaré un enlace para ver la
+            clase gratis.
           </Text>
         </Column>
       </Column>
