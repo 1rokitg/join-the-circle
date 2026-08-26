@@ -10,7 +10,7 @@ import {
   Column,
   Row,
 } from "@once-ui-system/core";
-import { Opacity as opacity, SpacingToken } from "@once-ui-system/core";
+import { opacity, SpacingToken } from "@once-ui-system/core";
 import { useState } from "react";
 
 declare global {
