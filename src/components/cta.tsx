@@ -13,9 +13,9 @@ declare global {
   }
 }
 
-export const CallToAction: React.FC<React.ComponentProps<typeof Column>> = ({
-  ...flex
-}) => {
+export const CallToAction: React.FC<
+  React.ComponentProps<typeof Column> & { trustBadges: boolean }
+> = ({ trustBadges, ...flex }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const videoId = "b4vnWgUmAa8";
@@ -68,16 +68,18 @@ export const CallToAction: React.FC<React.ComponentProps<typeof Column>> = ({
           maxWidth: 950,
         }}
       >
-        <Image
-          src="/images/trust-badges.webp"
-          alt="Trust Badges"
-          width={462}
-          height={70}
-          style={{
-            width: "80%",
-            height: "auto",
-          }}
-        />
+        {trustBadges && (
+          <Image
+            src="/images/trust-badges.webp"
+            alt="Trust Badges"
+            width={462}
+            height={70}
+            style={{
+              width: "80%",
+              height: "auto",
+            }}
+          />
+        )}
         {/* VIDEO */}
         <button
           type="button"

@@ -13,6 +13,7 @@ import {
   Text,
   RevealFx,
 } from "@once-ui-system/core";
+import { trustBadges } from "@/lib/flags";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -24,7 +25,9 @@ export async function generateMetadata() {
   });
 }
 
-export default function Home() {
+export default async function Home() {
+  const showTrustBadges = (await trustBadges()) as boolean;
+
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
       <Schema
@@ -91,7 +94,7 @@ export default function Home() {
         </Column>
       </Column>
 
-      <CallToAction />
+      <CallToAction trustBadges={showTrustBadges} />
 
       <Mailchimp />
     </Column>
