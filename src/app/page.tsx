@@ -12,9 +12,10 @@ import {
   Line,
 } from "@once-ui-system/core";
 import { home, about, person, baseURL, routes } from "@/resources";
+
+import { CallToAction } from "@/components/cta";
+import { ApplicationForm } from "@/components/entry-form";
 import { Mailchimp } from "@/components";
-import { Projects } from "@/components/work/Projects";
-import { Posts } from "@/components/blog/Posts";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -90,36 +91,10 @@ export default function Home() {
               {home.subline}
             </Text>
           </RevealFx>
-          <RevealFx
-            paddingTop="12"
-            delay={0.4}
-            horizontal="center"
-            paddingLeft="12"
-          >
-            <Button
-              id="about"
-              data-border="rounded"
-              href={about.path}
-              variant="secondary"
-              size="m"
-              weight="default"
-              arrowIcon
-            >
-              <Row gap="8" vertical="center" paddingRight="4">
-                {about.avatar.display && (
-                  <Avatar
-                    marginRight="8"
-                    style={{ marginLeft: "-0.75rem" }}
-                    src={person.avatar}
-                    size="m"
-                  />
-                )}
-                {about.title}
-              </Row>
-            </Button>
-          </RevealFx>
         </Column>
       </Column>
+
+      <CallToAction />
 
       <Mailchimp />
     </Column>

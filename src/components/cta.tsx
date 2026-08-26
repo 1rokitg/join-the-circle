@@ -1,271 +1,334 @@
 "use client";
 
-import { mailchimp, newsletter } from "@/resources";
-import {
-  Button,
-  Heading,
-  Input,
-  Text,
-  Background,
-  Column,
-  Row,
-} from "@once-ui-system/core";
-import { Opacity as opacity, SpacingToken } from "@once-ui-system/core";
-import { useState } from "react";
+import { newsletter } from "@/resources";
+import { Button, Column, Text } from "@once-ui-system/core";
+import { useEffect, useState } from "react";
 
 declare global {
   interface Window {
-    gtagSendEvent?: (url: string) => boolean;
+    whop?: {
+      track?: (event: string) => void;
+    };
   }
 }
 
-function debounce<T extends (...args: any[]) => void>(
-  func: T,
-  delay: number,
-): T {
-  let timeout: ReturnType<typeof setTimeout>;
-
-  return ((...args: Parameters<T>) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), delay);
-  }) as T;
-}
-
-interface VisitorData {
-  identifier: string;
-  email: string;
-  timestamp: string;
-  userAgent: string;
-  language: string;
-  languages: string;
-  platform: string;
-  screen: string;
-  ip: string;
-  referrer: string;
-  page: string;
-  timezone: string;
-}
-
-export interface Lead {
-  identifier: string;
-  email: string;
-  timestamp: string;
-  userAgent: string;
-  language: string;
-  languages: string[];
-  platform: string;
-  screen: {
-    width: number;
-    height: number;
-    colorDepth: number;
-  };
-}
-
-export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
+export const CallToAction: React.FC<React.ComponentProps<typeof Column>> = ({
   ...flex
 }) => {
-  const [email, setEmail] = useState<string>("");
-  const [error, setError] = useState<string>("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  // log view content
-  window.whop?.track("view_content");
+  const videoId = "b4vnWgUmAa8";
+  const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
-  const handleEmailCollection = async (
-    event: React.FormEvent<HTMLFormElement>,
-  ) => {
-    event.preventDefault();
+  useEffect(() => {
+    window.whop?.track?.("view_content");
+  }, []);
 
-    const formData = new FormData(event.currentTarget);
-    const submittedEmail = String(formData.get("EMAIL") ?? "").trim();
+  /**
+   * The form lives in another section.
+   * This component ONLY handles getting the visitor there.
+   */
+  const scrollToForm = () => {
+    const form = document.getElementById("contact-form");
 
-    if (!submittedEmail) {
-      setError("Please enter your email address.");
-      return;
-    }
+    if (!form) return;
 
-    if (!validateEmail(submittedEmail)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    const visitorData: VisitorData = {
-      identifier: submittedEmail.split("@")[0],
-      email: submittedEmail,
-      timestamp: new Date().toISOString(),
-      userAgent: window.navigator.userAgent,
-      language: window.navigator.language,
-      languages: window.navigator.languages.join(","),
-      platform: window.navigator.platform,
-      screen: JSON.stringify(
-        typeof window !== "undefined"
-          ? {
-              width: window.screen.width,
-              height: window.screen.height,
-              colorDepth: window.screen.colorDepth,
-            }
-          : {
-              width: 0,
-              height: 0,
-              colorDepth: 0,
-            },
-      ),
-      ip: "",
-      referrer: typeof document !== "undefined" ? document.referrer : "",
-      page: typeof window !== "undefined" ? window.location.href : "",
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    };
-
-    try {
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ lead: visitorData }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to push lead: " + response.statusText);
-      }
-
-      // ...
-      if (
-        typeof window !== "undefined" &&
-        typeof window.gtagSendEvent === "function"
-      ) {
-        window.gtagSendEvent("https://rokitg.substack.com/subscribe");
-      } else {
-        window.location.href = "https://rokitg.substack.com/subscribe";
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
+    form.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
-  const validateEmail = (email: string): boolean => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-
-    setEmail(value);
-
-    if (!validateEmail(value)) {
-      setError("Please enter a valid email address.");
-    } else {
-      setError("");
-    }
-  };
-
-  const handleBlur = () => {
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-    }
-  };
-
-  if (newsletter.display === false) return null;
+  if (newsletter.display === false) {
+    return null;
+  }
 
   return (
     <Column
       overflow="hidden"
-      fillWidth
-      padding="xl"
       radius="l"
-      marginBottom="m"
       horizontal="center"
       align="center"
-      background="surface"
-      border="neutral-alpha-weak"
       {...flex}
+      style={{
+        width: "100%",
+        position: "relative",
+      }}
     >
-      <Background
-        top="0"
-        position="absolute"
-        mask={{
-          x: mailchimp.effects.mask.x,
-          y: mailchimp.effects.mask.y,
-          radius: mailchimp.effects.mask.radius,
-          cursor: mailchimp.effects.mask.cursor,
-        }}
-        gradient={{
-          display: mailchimp.effects.gradient.display,
-          opacity: mailchimp.effects.gradient.opacity as opacity,
-          x: mailchimp.effects.gradient.x,
-          y: mailchimp.effects.gradient.y,
-          width: mailchimp.effects.gradient.width,
-          height: mailchimp.effects.gradient.height,
-          tilt: mailchimp.effects.gradient.tilt,
-          colorStart: mailchimp.effects.gradient.colorStart,
-          colorEnd: mailchimp.effects.gradient.colorEnd,
-        }}
-        dots={{
-          display: mailchimp.effects.dots.display,
-          opacity: mailchimp.effects.dots.opacity as opacity,
-          size: mailchimp.effects.dots.size as SpacingToken,
-          color: mailchimp.effects.dots.color,
-        }}
-        grid={{
-          display: mailchimp.effects.grid.display,
-          opacity: mailchimp.effects.grid.opacity as opacity,
-          color: mailchimp.effects.grid.color,
-          width: mailchimp.effects.grid.width,
-          height: mailchimp.effects.grid.height,
-        }}
-        lines={{
-          display: mailchimp.effects.lines.display,
-          opacity: mailchimp.effects.lines.opacity as opacity,
-          size: mailchimp.effects.lines.size as SpacingToken,
-          thickness: mailchimp.effects.lines.thickness,
-          angle: mailchimp.effects.lines.angle,
-          color: mailchimp.effects.lines.color,
-        }}
-      />
+      {/* =========================================================
+          VIDEO SALES LETTER
+      ========================================================== */}
 
-      <Column maxWidth="xs" horizontal="center">
-        <Heading marginBottom="s" variant="display-strong-xs">
-          {newsletter.title}
-        </Heading>
-
-        <Text
-          wrap="balance"
-          marginBottom="l"
-          variant="body-default-l"
-          onBackground="neutral-weak"
-        >
-          {newsletter.description}
-        </Text>
-      </Column>
-
-      <div
-        style={{ display: "flex", justifyContent: "center", margin: "2rem 0" }}
+      <Column
+        horizontal="center"
+        align="center"
+        style={{
+          width: "100%",
+          maxWidth: 950,
+        }}
       >
-        <iframe
-          width="360"
-          height="203"
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          style={{ borderRadius: "12px", maxWidth: "100%" }}
-        ></iframe>
-      </div>
+        {/* VIDEO */}
+        <button
+          type="button"
+          onClick={scrollToForm}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onFocus={() => setIsHovered(true)}
+          onBlur={() => setIsHovered(false)}
+          aria-label="Ver la clase gratis y continuar"
+          style={{
+            position: "relative",
+            width: "100%",
+            aspectRatio: "16 / 9",
+            padding: 0,
+            border: "2px solid #ed1238",
+            borderRadius: 16,
+            overflow: "hidden",
+            cursor: "pointer",
+            background: "#050505",
+            boxShadow: isHovered
+              ? "0 24px 70px rgba(237,18,56,0.28)"
+              : "0 15px 45px rgba(0,0,0,0.35)",
+            transform: isHovered ? "translateY(-4px)" : "translateY(0)",
+            transition: "transform 250ms ease, box-shadow 250ms ease",
+          }}
+        >
+          {/* Thumbnail */}
+          <img
+            src={thumbnail}
+            alt="Clase gratuita de ecommerce"
+            draggable={false}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transform: isHovered ? "scale(1.035)" : "scale(1)",
+              transition: "transform 600ms ease",
+            }}
+          />
 
-      <script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=AW-18179035088"
-      ></script>
-      <script>
-        window.dataLayer = window.dataLayer || []; function gtag() //
-        {window.dataLayer.push()} // @ts-ignore gtag('js', new Date());
-        gtag('setScope', 'biz_ROKYKZdV9YGZP7'); gtag('track', 'view_content');
-        gtag('config', 'AW-18179035088');
-      </script>
+          {/* Dark cinematic overlay */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: `
+                linear-gradient(
+                  180deg,
+                  rgba(0,0,0,0.10) 0%,
+                  rgba(0,0,0,0.05) 40%,
+                  rgba(0,0,0,0.75) 100%
+                )
+              `,
+            }}
+          />
+
+          {/* Top player UI */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "16px 18px",
+            }}
+          >
+            {/* LIVE / CLASS badge */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "7px 11px",
+                borderRadius: 999,
+                background: "rgba(0,0,0,0.55)",
+                border: "1px solid rgba(255,255,255,0.16)",
+                backdropFilter: "blur(12px)",
+                color: "#fff",
+                fontSize: 12,
+                fontWeight: 700,
+                letterSpacing: "0.04em",
+              }}
+            >
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: "#ed1238",
+                  boxShadow: "0 0 12px rgba(237,18,56,0.9)",
+                }}
+              />
+              CLASE GRATIS
+            </div>
+
+            {/* Duration */}
+            <div
+              style={{
+                padding: "7px 11px",
+                borderRadius: 999,
+                background: "rgba(0,0,0,0.55)",
+                border: "1px solid rgba(255,255,255,0.16)",
+                backdropFilter: "blur(12px)",
+                color: "#fff",
+                fontSize: 12,
+                fontWeight: 600,
+              }}
+            >
+              12:47
+            </div>
+          </div>
+
+          {/* PLAY BUTTON */}
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "clamp(72px, 9vw, 104px)",
+              height: "clamp(72px, 9vw, 104px)",
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "#ed1238",
+              boxShadow: `
+                0 12px 35px rgba(0,0,0,0.45),
+                0 0 0 10px rgba(237,18,56,0.18),
+                0 0 0 20px rgba(237,18,56,0.08)
+              `,
+              transition: "transform 220ms ease",
+            }}
+          >
+            <svg
+              width="38"
+              height="38"
+              viewBox="0 0 38 38"
+              aria-hidden="true"
+              style={{
+                marginLeft: 4,
+                transform: isHovered ? "scale(1.12)" : "scale(1)",
+                transition: "transform 220ms ease",
+              }}
+            >
+              <path d="M14 9.5L29 19L14 28.5V9.5Z" fill="white" />
+            </svg>
+          </div>
+
+          {/* Bottom player area */}
+          <div
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 0,
+              padding: "20px 22px 18px",
+              color: "#fff",
+              textAlign: "left",
+            }}
+          >
+            {/* Fake progress bar */}
+            <div
+              style={{
+                width: "100%",
+                height: 3,
+                marginBottom: 12,
+                borderRadius: 99,
+                background: "rgba(255,255,255,0.28)",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  width: "31%",
+                  height: "100%",
+                  borderRadius: 99,
+                  background: "#ed1238",
+                }}
+              />
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: 16,
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "clamp(13px, 1.5vw, 16px)",
+                  fontWeight: 600,
+                  textShadow: "0 2px 8px rgba(0,0,0,0.5)",
+                }}
+              >
+                Cómo empecé desde cero
+              </span>
+
+              <span
+                style={{
+                  fontSize: 12,
+                  opacity: 0.8,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                ▶ Ver ahora
+              </span>
+            </div>
+          </div>
+        </button>
+
+        {/* =========================================================
+            CTA
+        ========================================================== */}
+
+        <Column
+          horizontal="center"
+          align="center"
+          gap="m"
+          style={{
+            width: "100%",
+            marginTop: 18,
+          }}
+        >
+          <Button
+            type="button"
+            onClick={scrollToForm}
+            size="l"
+            variant="primary"
+            style={{
+              width: "100%",
+              minHeight: 64,
+              borderRadius: 10,
+              fontSize: "clamp(16px, 2vw, 20px)",
+              fontWeight: 800,
+              letterSpacing: "0.01em",
+              boxShadow: "0 10px 35px rgba(237,18,56,0.28)",
+              transition: "transform 180ms ease, box-shadow 180ms ease",
+            }}
+          >
+            RECIBIR CLASE GRATIS YA ↓
+          </Button>
+
+          <Text
+            onBackground="neutral-weak"
+            style={{
+              fontSize: 13,
+              textAlign: "center",
+              opacity: 0.75,
+            }}
+          >
+            Acceso gratuito · Sin compromiso
+          </Text>
+        </Column>
+      </Column>
     </Column>
   );
 };
