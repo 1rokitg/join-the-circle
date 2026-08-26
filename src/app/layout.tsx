@@ -9,7 +9,7 @@ import {
   Column,
   Flex,
   Meta,
-  Opacity as opacity,
+  opacity,
   RevealFx,
   SpacingToken,
 } from "@once-ui-system/core";
@@ -25,6 +25,7 @@ import {
 } from "@/resources";
 
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -241,6 +242,7 @@ export default async function RootLayout({
       </Providers>
 
       <Analytics />
+      <SpeedInsights />
     </Flex>
   );
 }
