@@ -171,6 +171,10 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
 
   return (
     <Column
+      id="contact-form"
+      style={{
+        scrollMarginTop: "100px",
+      }}
       overflow="hidden"
       fillWidth
       padding="xl"
