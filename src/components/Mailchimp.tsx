@@ -13,6 +13,8 @@ import {
 import { Opacity as opacity, SpacingToken } from "@once-ui-system/core";
 import { useState } from "react";
 
+const REDIRECT_URL = "https://whop.com/rokitg/free-comm/";
+
 declare global {
   interface Window {
     gtagSendEvent?: (url: string) => boolean;
@@ -135,10 +137,9 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
         typeof window !== "undefined" &&
         typeof window.gtagSendEvent === "function"
       ) {
-        window.gtagSendEvent("https://whop.com/rokitg/exp_p8nAF6RNdAM8kN/app/");
+        window.gtagSendEvent(REDIRECT_URL);
       } else {
-        window.location.href =
-          "https://whop.com/rokitg/exp_p8nAF6RNdAM8kN/app/";
+        window.location.href = REDIRECT_URL;
       }
     } finally {
       setIsSubmitting(false);
