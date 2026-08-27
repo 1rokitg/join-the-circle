@@ -29,6 +29,12 @@ importers:
       '@vercel/speed-insights':
         specifier: ^2.0.0
         version: 2.0.0(next@16.3.2(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.103.1))(react@19.2.8)
+      '@whop/elements':
+        specifier: 1.0.0-beta.2
+        version: 1.0.0-beta.2
+      '@whop/elements-react':
+        specifier: 1.0.0-beta.2
+        version: 1.0.0-beta.2(@whop/elements@1.0.0-beta.2)(react@19.2.8)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -1444,6 +1450,15 @@ packages:
     resolution: {integrity: sha512-O166ukrrKj7yzUqldpkwMpO5a18Z2hcqlbXHlp6tguZKRQQTgq4IAMii/jOzE3KggTOh2WR6IDoyQAX9XSaFtQ==}
     cpu: [x64]
     os: [linux]
+
+  '@whop/elements-react@1.0.0-beta.2':
+    resolution: {integrity: sha512-CErH/Of8rAGvHRSxFOvpGosi+xsAHEDjrfpS8nSdB5x+063QO3oQWIeWrf40k73SmIPWRLkntuBqxGttLhZlAQ==}
+    peerDependencies:
+      '@whop/elements': ^1.0.0-beta.2
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  '@whop/elements@1.0.0-beta.2':
+    resolution: {integrity: sha512-L7kQzuL5UttP3nk2hT8GOnTdy4eyFN4t74gRePKRwWWnhRKZLKfBc3UzM+oOH8BRwsv1v/t5j7WkbkugsBz/hA==}
 
   '@workflow/serde@4.1.0-beta.2':
     resolution: {integrity: sha512-8kkeoQKLDaKXefjV5dbhBj2aErfKp1Mc4pb6tj8144cF+Em5SPbyMbyLCHp+BVrFfFVCBluCtMx+jjvaFVZGww==}
@@ -4437,6 +4452,14 @@ snapshots:
 
   '@vercel/vc-native-linux-x64@59.4.0':
     optional: true
+
+  '@whop/elements-react@1.0.0-beta.2(@whop/elements@1.0.0-beta.2)(react@19.2.8)':
+    dependencies:
+      '@whop/elements': 1.0.0-beta.2
+      react: 19.2.8
+      use-sync-external-store: 1.6.0(react@19.2.8)
+
+  '@whop/elements@1.0.0-beta.2': {}
 
   '@workflow/serde@4.1.0-beta.2': {}
 
