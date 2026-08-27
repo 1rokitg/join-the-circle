@@ -11,12 +11,7 @@ export default function TrackedCalendarButton({
 }: TrackedCalendarButtonProps) {
   const handleClick = (event: React.MouseEvent) => {
     event.preventDefault();
-
-    if (typeof window.gtagSendEvent === "function") {
-      window.gtagSendEvent(href);
-    } else {
-      window.location.href = href;
-    }
+    window.location.href = href;
   };
 
   return (
