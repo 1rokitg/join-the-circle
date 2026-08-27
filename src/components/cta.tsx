@@ -5,6 +5,8 @@ import { Button, Column, Text } from "@once-ui-system/core";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+import type { VisitorData } from "./Mailchimp";
+
 declare global {
   interface Window {
     whop?: {
@@ -17,22 +19,47 @@ export const CallToAction: React.FC<
   React.ComponentProps<typeof Column> & { trustBadges: boolean }
 > = ({ trustBadges, ...flex }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [visitorData, setVisitorData] = useState<VisitorData | null>(null);
 
   const videoId = "b4vnWgUmAa8";
   const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
   useEffect(() => {
-    window.whop?.track?.("add_to_cart", { content: "cta_button" });
+    window.whop?.track?.("view_content", { content: "video_funnel" });
+    const newVisitorData: VisitorData = {
+      identifier: crypto.randomUUID(),
+      email: "",
+      timestamp: new Date().toISOString(),
+      userAgent: window.navigator.userAgent,
+      language: window.navigator.language,
+      languages: window.navigator.languages.join(","),
+      platform: window.navigator.platform,
+      screen: JSON.stringify({
+        width: window.screen.width,
+        height: window.screen.height,
+        colorDepth: window.screen.colorDepth,
+      }),
+      ip: "",
+      referrer: document.referrer,
+      page: window.location.href,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    };
+    setVisitorData(newVisitorData);
+    return () => {
+      window.whop?.track?.("leave_page", { page: "whop_redirect" });
+    };
   }, []);
 
   /**
    * The form lives in another section.
    * This component ONLY handles getting the visitor there.
    */
-  const scrollToForm = () => {
+  const handleClick = () => {
     const form = document.getElementById("contact-form");
 
     if (!form) return;
+
+    window.whop?.track?.("video_cta_click", { metadata: visitorData });
 
     form.scrollIntoView({
       behavior: "smooth",
@@ -83,7 +110,7 @@ export const CallToAction: React.FC<
         {/* VIDEO */}
         <button
           type="button"
-          onClick={scrollToForm}
+          onClick={handleClick}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onFocus={() => setIsHovered(true)}
@@ -313,7 +340,7 @@ export const CallToAction: React.FC<
         >
           <Button
             type="button"
-            onClick={scrollToForm}
+            onClick={handleClick}
             size="l"
             variant="primary"
             style={{
