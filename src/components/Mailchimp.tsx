@@ -135,9 +135,10 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
         typeof window !== "undefined" &&
         typeof window.gtagSendEvent === "function"
       ) {
-        window.gtagSendEvent("https://rokitg.substack.com/subscribe");
+        window.gtagSendEvent("https://whop.com/rokitg/exp_p8nAF6RNdAM8kN/app/");
       } else {
-        window.location.href = "https://rokitg.substack.com/subscribe";
+        window.location.href =
+          "https://whop.com/rokitg/exp_p8nAF6RNdAM8kN/app/";
       }
     } finally {
       setIsSubmitting(false);
