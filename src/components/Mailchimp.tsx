@@ -13,7 +13,7 @@ import {
 import { Opacity as opacity, SpacingToken } from "@once-ui-system/core";
 import { useState } from "react";
 
-const REDIRECT_URL = "https://whop.com/rokitg/free-comm/";
+const REDIRECT_URL = "https://whop.com/checkout/plan_lR3qQD57fpV7O";
 
 declare global {
   interface Window {
