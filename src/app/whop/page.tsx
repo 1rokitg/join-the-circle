@@ -7,6 +7,15 @@ export default function NotFound() {
   const [secondsLeft, setSecondsLeft] = useState(5);
 
   useEffect(() => {
+    // this fires when the page is loaded
+    window.whop?.track?.("view_page", { page: "whop_redirect" });
+    return () => {
+      // this fires when the page is unloaded
+      window.whop?.track?.("leave_page", { page: "whop_redirect" });
+    };
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setSecondsLeft((prev) => Math.max(prev - 1, 0));
     }, 1000);

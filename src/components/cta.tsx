@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 declare global {
   interface Window {
     whop?: {
-      track?: (event: string) => void;
+      track?: (event: string, data: Record<string, any>) => void;
     };
   }
 }
@@ -22,7 +22,7 @@ export const CallToAction: React.FC<
   const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
   useEffect(() => {
-    window.whop?.track?.("view_content");
+    window.whop?.track?.("add_to_cart", { content: "cta_button" });
   }, []);
 
   /**

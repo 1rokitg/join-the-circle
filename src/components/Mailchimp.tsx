@@ -14,6 +14,14 @@ import { Opacity as opacity, SpacingToken } from "@once-ui-system/core";
 import { useEffect, useRef, useState } from "react";
 import { EmbeddedCheckout } from "./checkout";
 
+declare global {
+  interface Window {
+    whop?: {
+      track?: (event: string, data: Record<string, any>) => void;
+    };
+  }
+}
+
 export interface VisitorData {
   identifier: string;
   email: string;
@@ -203,6 +211,8 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
        * This survives the React re-render caused by setIsCheckingOut().
        */
       setVisitorData(newVisitorData);
+      window.whop?.track?.("lead", { email: submittedEmail });
+
       setIsCheckingOut(true);
     } catch (err) {
       if (err instanceof DOMException && err.name === "AbortError") {

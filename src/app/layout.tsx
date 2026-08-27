@@ -40,6 +40,9 @@ export async function generateMetadata() {
 declare global {
   interface Window {
     dataLayer: any[];
+    whop?: {
+      track?: (event: string, data: Record<string, any>) => void;
+    };
   }
 }
 
