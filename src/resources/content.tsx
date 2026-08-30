@@ -36,7 +36,7 @@ const social: Social = [
   {
     name: "Discord",
     icon: "discord",
-    link: "https://discord.gg/D9FwZsgGxd",
+    link: "https://whop.com/rokitg/free-comm",
     essential: true,
   },
   {
