@@ -32,17 +32,16 @@ export default function Blog() {
       <Heading marginBottom="l" variant="heading-strong-xl" marginLeft="24">
         {blog.title}
       </Heading>
-      <Column fillWidth flex={1} gap="40">
+      <Column fillWidth flex={1} gap="40" align="center" horizontal="center">
         <iframe
           src="https://rokitg.substack.com/embed?transparent=1&light=1"
-          width="480"
-          height="320"
+          width="800"
+          height="600"
           style={{ border: 0, background: "transparent" }}
           frameBorder={0}
           scrolling="no"
           allowFullScreen
         />
-        <Mailchimp marginBottom="l" />
       </Column>
     </Column>
   );
