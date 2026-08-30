@@ -33,13 +33,16 @@ export default function Blog() {
         {blog.title}
       </Heading>
       <Column fillWidth flex={1} gap="40">
-        <Posts range={[1, 1]} thumbnail />
-        <Posts range={[2, 3]} columns="2" thumbnail direction="column" />
+        <iframe
+          src="https://rokitg.substack.com/embed?transparent=1&light=1"
+          width="480"
+          height="320"
+          style={{ border: 0, background: "transparent" }}
+          frameBorder={0}
+          scrolling="no"
+          allowFullScreen
+        />
         <Mailchimp marginBottom="l" />
-        <Heading as="h2" variant="heading-strong-xl" marginLeft="l">
-          Earlier posts
-        </Heading>
-        <Posts range={[4]} columns="2" />
       </Column>
     </Column>
   );

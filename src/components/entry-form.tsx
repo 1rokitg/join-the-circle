@@ -177,7 +177,7 @@ export function ApplicationForm() {
        * I'd personally reveal/redirect to the actual class here.
        */
 
-      window.location.href = "https://rokitg.substack.com/subscribe";
+      window.location.href = "https://whop.com/rokitg/exp_p8nAF6RNdAM8kN/app/";
     } catch (error) {
       console.error(error);
 

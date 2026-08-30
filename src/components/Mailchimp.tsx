@@ -317,7 +317,10 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
             display: "flex",
             justifyContent: "center",
           }}
-          onSubmit={handleSubscribe}
+          onSubmit={(e) => {
+            e.preventDefault();
+            console.log("Form submitted");
+          }}
           method="post"
           id="mc-embedded-subscribe-form"
           name="mc-embedded-subscribe-form"
