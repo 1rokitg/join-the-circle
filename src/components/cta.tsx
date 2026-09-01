@@ -61,10 +61,7 @@ export const CallToAction: React.FC<
 
     window.whop?.track?.("video_cta_click", { metadata: visitorData });
 
-    form.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    window.location.href = "https://tally.so/r/WO7ora";
   };
 
   if (newsletter.display === false) {
