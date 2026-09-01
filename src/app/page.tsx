@@ -93,8 +93,6 @@ export default async function Home() {
       </Column>
 
       <CallToAction trustBadges={true} />
-
-      <Mailchimp />
     </Column>
   );
 }
