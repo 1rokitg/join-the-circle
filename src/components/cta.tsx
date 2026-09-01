@@ -55,10 +55,6 @@ export const CallToAction: React.FC<
    * This component ONLY handles getting the visitor there.
    */
   const handleClick = () => {
-    const form = document.getElementById("contact-form");
-
-    if (!form) return;
-
     window.whop?.track?.("video_cta_click", { metadata: visitorData });
 
     window.location.href = "https://tally.so/r/WO7ora";
