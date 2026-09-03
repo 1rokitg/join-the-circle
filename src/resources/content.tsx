@@ -78,17 +78,17 @@ const home: Home = {
       <Row gap="12" vertical="center">
         <Row gap="8" vertical="center">
           <Image
-            src="/images/whop.png"
-            alt="Whop Logo"
+            src="/images/pfp2026.jpg"
+            alt="RokitG Profile Picture"
             width={26}
             height={26}
-            style={{ width: "26px", height: "26px", borderRadius: "50%" }}
+            style={{ width: "26px", height: "26px", borderRadius: "100%" }}
           />
-          <strong className="">The Circle</strong>
+          <strong className="">Telegram</strong>
         </Row>
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
-          What's inside?
+          @1rokitg
         </Text>
       </Row>
     ),
