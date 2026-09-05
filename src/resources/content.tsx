@@ -92,7 +92,7 @@ const home: Home = {
         </Text>
       </Row>
     ),
-    href: "@rok1tg",
+    href: "https://t.me/rok1tg",
   },
   subline: (
     <>
