@@ -84,7 +84,7 @@ const home: Home = {
             height={26}
             style={{ width: "26px", height: "26px", borderRadius: "100%" }}
           />
-          <strong className="">Telegram</strong>
+          <strong className="">Telegram Calls</strong>
         </Row>
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
@@ -92,7 +92,7 @@ const home: Home = {
         </Text>
       </Row>
     ),
-    href: "https://whop.com/rokitg",
+    href: "@rok1tg",
   },
   subline: (
     <>
