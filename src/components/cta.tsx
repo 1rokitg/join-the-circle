@@ -57,7 +57,8 @@ export const CallToAction: React.FC<
   const handleClick = () => {
     window.whop?.track?.("video_cta_click", { context: visitorData });
 
-    window.location.href = "https://tally.so/r/WO7ora";
+    window.location.href =
+      "https://www.youtube.com/@1rokitg?sub_confirmation=1";
   };
 
   if (newsletter.display === false) {
