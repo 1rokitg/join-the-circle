@@ -243,7 +243,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
                 fontWeight: 600,
               }}
             >
-              12:47
+              10:31
             </div>
           </div>
 
