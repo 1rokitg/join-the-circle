@@ -5,12 +5,13 @@ import { Button, Column, Text } from "@once-ui-system/core";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import type { VisitorData } from "./Mailchimp";
-
 interface CallToActionProps extends React.ComponentProps<typeof Column> {
   trustBadges: boolean;
-  onCheckout?: () => void;
 }
+
+const FREE_COMMUNITY_URL = "https://whop.com/rokitg/free-comm";
+const YOUTUBE_CHANNEL_URL =
+  "https://www.youtube.com/@1rokitg?sub_confirmation=1";
 
 declare global {
   interface Window {
@@ -22,11 +23,9 @@ declare global {
 
 export const CallToAction: React.FC<CallToActionProps> = ({
   trustBadges,
-  onCheckout,
   ...flex
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [visitorData, setVisitorData] = useState<VisitorData | null>(null);
 
   const videoId = "b4vnWgUmAa8";
   const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
@@ -36,57 +35,33 @@ export const CallToAction: React.FC<CallToActionProps> = ({
       content: "video_funnel",
     });
 
-    const newVisitorData: VisitorData = {
-      identifier: crypto.randomUUID(),
-      email: "",
-      timestamp: new Date().toISOString(),
-      userAgent: window.navigator.userAgent,
-      language: window.navigator.language,
-      languages: window.navigator.languages.join(","),
-      platform: window.navigator.platform,
-      screen: JSON.stringify({
-        width: window.screen.width,
-        height: window.screen.height,
-        colorDepth: window.screen.colorDepth,
-      }),
-      ip: "",
-      referrer: document.referrer,
-      page: window.location.href,
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    };
-
-    setVisitorData(newVisitorData);
-
     return () => {
       window.whop?.track?.("leave_page", {
-        page: "whop_redirect",
+        page: "free_funnel",
       });
     };
   }, []);
 
-  /**
-   * Video thumbnail:
-   * Opens the embedded Whop checkout.
-   */
   const handleVideoClick = () => {
-    window.whop?.track?.("video_cta_click", {
-      context: visitorData,
-    });
+    window.whop?.track?.("free_class_click", { videoId });
 
-    onCheckout?.();
+    window.location.href = "https://www.youtube.com/watch?v=" + videoId;
   };
 
-  /**
-   * Bottom CTA:
-   * Keeps the original YouTube subscription redirect.
-   */
-  const handleClick = () => {
-    window.whop?.track?.("cta_click", {
-      context: visitorData,
+  const handleCommunityClick = () => {
+    window.whop?.track?.("free_community_click", {
+      destination: "whop_free_community",
     });
 
-    window.location.href =
-      "https://www.youtube.com/@1rokitg?sub_confirmation=1";
+    window.location.href = FREE_COMMUNITY_URL;
+  };
+
+  const handleYoutubeClick = () => {
+    window.whop?.track?.("youtube_subscribe_click", {
+      destination: "youtube_channel",
+    });
+
+    window.location.href = YOUTUBE_CHANNEL_URL;
   };
 
   if (newsletter.display === false) {
@@ -138,7 +113,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
           onMouseLeave={() => setIsHovered(false)}
           onFocus={() => setIsHovered(true)}
           onBlur={() => setIsHovered(false)}
-          aria-label="Ver la clase gratis y continuar"
+          aria-label="Ver la clase gratis en YouTube"
           style={{
             position: "relative",
             width: "100%",
@@ -363,7 +338,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
         >
           <Button
             type="button"
-            onClick={handleClick}
+            onClick={handleCommunityClick}
             size="l"
             variant="primary"
             style={{
@@ -377,7 +352,23 @@ export const CallToAction: React.FC<CallToActionProps> = ({
               transition: "transform 180ms ease, box-shadow 180ms ease",
             }}
           >
-            RECIBIR CLASE GRATIS YA ↓
+            UNIRME A LA COMUNIDAD GRATIS ↓
+          </Button>
+
+          <Button
+            type="button"
+            onClick={handleYoutubeClick}
+            size="l"
+            variant="secondary"
+            style={{
+              width: "100%",
+              minHeight: 56,
+              borderRadius: 10,
+              fontSize: "clamp(15px, 1.8vw, 18px)",
+              fontWeight: 700,
+            }}
+          >
+            SUSCRIBIRME EN YOUTUBE
           </Button>
 
           <Text
@@ -388,8 +379,8 @@ export const CallToAction: React.FC<CallToActionProps> = ({
               opacity: 0.75,
             }}
           >
-            Introduce tu correo electrónico y te enviaré un enlace para ver la
-            clase gratis.
+            Empieza gratis en la comunidad o suscríbete para seguir aprendiendo
+            en YouTube.
           </Text>
         </Column>
       </Column>
