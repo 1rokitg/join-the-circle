@@ -4,18 +4,13 @@ import { loadWhop } from "@whop/elements";
 import { Checkout, CheckoutElement, WhopElements } from "@whop/elements-react";
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
-import type { VisitorData } from "./Mailchimp";
 
 interface EmbeddedCheckoutProps {
-  email: string;
-  visitorData: VisitorData;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export function EmbeddedCheckout({
-  email,
-  visitorData,
-  onClose,
+  onClose = () => {},
 }: EmbeddedCheckoutProps) {
   const [mounted, setMounted] = useState(false);
 
@@ -146,20 +141,6 @@ export function EmbeddedCheckout({
               affiliateCode="rokitg"
               attribution={{
                 source: "rokitg.com",
-              }}
-              metadata={{
-                id: visitorData.identifier,
-                capturedEmail: email,
-                timestamp: visitorData.timestamp,
-                userAgent: visitorData.userAgent,
-                language: visitorData.language,
-                languages: visitorData.languages,
-                platform: visitorData.platform,
-                screen: visitorData.screen,
-                ip: visitorData.ip,
-                referrer: visitorData.referrer,
-                page: visitorData.page,
-                timezone: visitorData.timezone,
               }}
               returnUrl="https://whop.com/rokitg"
             >

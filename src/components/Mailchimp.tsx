@@ -407,13 +407,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
         </form>
       </Column>
 
-      {isCheckingOut && visitorData && (
-        <EmbeddedCheckout
-          email={visitorData.email}
-          visitorData={visitorData}
-          onClose={handleCloseCheckout}
-        />
-      )}
+      {isCheckingOut && <EmbeddedCheckout onClose={handleCloseCheckout} />}
     </>
   );
 };

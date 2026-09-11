@@ -10,7 +10,7 @@ import {
 export function WhopExpressCheckout() {
   return (
     <WhopElements elements={loadWhop()}>
-      <Checkout plan="plan_lR3qQD57fpV7O">
+      <Checkout plan="plan_6hY35QLQssD74">
         <ExpressCheckoutElement
           layout="auto"
           wallets={["apple_pay", "google_pay"]}

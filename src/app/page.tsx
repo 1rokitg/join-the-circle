@@ -14,6 +14,7 @@ import {
   RevealFx,
 } from "@once-ui-system/core";
 import { trustBadges } from "@/lib/flags";
+import { EmbeddedCheckout } from "@/components/checkout";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -93,6 +94,7 @@ export default async function Home() {
       </Column>
 
       <CallToAction trustBadges={true} />
+      <EmbeddedCheckout />
     </Column>
   );
 }
