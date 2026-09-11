@@ -1,8 +1,5 @@
 import { home, about, person, baseURL, routes } from "@/resources";
 
-import { CallToAction } from "@/components/cta";
-import { ApplicationForm } from "@/components/entry-form";
-import { Mailchimp } from "@/components";
 import {
   Column,
   Meta,
@@ -13,8 +10,7 @@ import {
   Text,
   RevealFx,
 } from "@once-ui-system/core";
-import { trustBadges } from "@/lib/flags";
-import { EmbeddedCheckout } from "@/components/checkout";
+import { HomeCheckout } from "@/components/home-client";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -93,8 +89,7 @@ export default async function Home() {
         </Column>
       </Column>
 
-      <CallToAction trustBadges={true} />
-      <EmbeddedCheckout open={false} />
+      <HomeCheckout />
     </Column>
   );
 }

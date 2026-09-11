@@ -11,7 +11,10 @@ export function HomeCheckout() {
     <>
       <CallToAction
         trustBadges={true}
-        onCheckout={() => setCheckoutOpen(true)}
+        onCheckout={() => {
+          console.log("Opening checkout");
+          setCheckoutOpen(true);
+        }}
       />
 
       <EmbeddedCheckout
