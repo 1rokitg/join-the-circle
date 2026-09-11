@@ -94,7 +94,7 @@ export default async function Home() {
       </Column>
 
       <CallToAction trustBadges={true} />
-      <EmbeddedCheckout />
+      <EmbeddedCheckout open={false} />
     </Column>
   );
 }

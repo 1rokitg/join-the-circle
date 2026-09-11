@@ -6,16 +6,22 @@ import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 
 interface EmbeddedCheckoutProps {
+  open: boolean;
   onClose?: () => void;
 }
 
 export function EmbeddedCheckout({
+  open,
   onClose = () => {},
 }: EmbeddedCheckoutProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -23,9 +29,9 @@ export function EmbeddedCheckout({
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, []);
+  }, [open]);
 
-  if (!mounted) {
+  if (!mounted || !open) {
     return null;
   }
 
@@ -38,18 +44,13 @@ export function EmbeddedCheckout({
         position: "fixed",
         inset: 0,
         zIndex: 2147483647,
-
         width: "100vw",
         height: "100dvh",
-
         background: "rgba(0, 0, 0, 0.96)",
         overflow: "hidden",
-
         boxSizing: "border-box",
-
         display: "flex",
         flexDirection: "column",
-
         borderRadius: 24,
       }}
     >
@@ -62,25 +63,18 @@ export function EmbeddedCheckout({
           top: "max(16px, env(safe-area-inset-top))",
           right: "max(16px, env(safe-area-inset-right))",
           zIndex: 10,
-
           width: 44,
           height: 44,
-
           border: "none",
           borderRadius: "999px",
-
           background: "rgba(255, 255, 255, 0.12)",
           color: "#fff",
-
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-
           fontSize: 28,
           lineHeight: 1,
-
           cursor: "pointer",
-
           backdropFilter: "blur(12px)",
           WebkitBackdropFilter: "blur(12px)",
         }}
@@ -94,12 +88,9 @@ export function EmbeddedCheckout({
           height: "100%",
           minWidth: 0,
           minHeight: 0,
-
           overflowY: "auto",
           overflowX: "hidden",
-
           boxSizing: "border-box",
-
           paddingTop: "max(24px, env(safe-area-inset-top))",
           paddingRight: "max(24px, env(safe-area-inset-right))",
           paddingBottom: "max(24px, env(safe-area-inset-bottom))",
@@ -111,11 +102,8 @@ export function EmbeddedCheckout({
             width: "100%",
             maxWidth: 1200,
             minHeight: "100%",
-
             margin: "0 auto",
-
             boxSizing: "border-box",
-
             display: "flex",
             flexDirection: "column",
           }}

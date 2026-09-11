@@ -7,6 +7,11 @@ import { useEffect, useState } from "react";
 
 import type { VisitorData } from "./Mailchimp";
 
+interface CallToActionProps extends React.ComponentProps<typeof Column> {
+  trustBadges: boolean;
+  onCheckout?: () => void;
+}
+
 declare global {
   interface Window {
     whop?: {
@@ -15,9 +20,11 @@ declare global {
   }
 }
 
-export const CallToAction: React.FC<
-  React.ComponentProps<typeof Column> & { trustBadges: boolean }
-> = ({ trustBadges, ...flex }) => {
+export const CallToAction: React.FC<CallToActionProps> = ({
+  trustBadges,
+  onCheckout,
+  ...flex
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [visitorData, setVisitorData] = useState<VisitorData | null>(null);
 
@@ -25,7 +32,10 @@ export const CallToAction: React.FC<
   const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
   useEffect(() => {
-    window.whop?.track?.("view_content", { content: "video_funnel" });
+    window.whop?.track?.("view_content", {
+      content: "video_funnel",
+    });
+
     const newVisitorData: VisitorData = {
       identifier: crypto.randomUUID(),
       email: "",
@@ -44,18 +54,36 @@ export const CallToAction: React.FC<
       page: window.location.href,
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
+
     setVisitorData(newVisitorData);
+
     return () => {
-      window.whop?.track?.("leave_page", { page: "whop_redirect" });
+      window.whop?.track?.("leave_page", {
+        page: "whop_redirect",
+      });
     };
   }, []);
 
   /**
-   * The form lives in another section.
-   * This component ONLY handles getting the visitor there.
+   * Video thumbnail:
+   * Opens the embedded Whop checkout.
+   */
+  const handleVideoClick = () => {
+    window.whop?.track?.("video_cta_click", {
+      context: visitorData,
+    });
+
+    onCheckout?.();
+  };
+
+  /**
+   * Bottom CTA:
+   * Keeps the original YouTube subscription redirect.
    */
   const handleClick = () => {
-    window.whop?.track?.("video_cta_click", { context: visitorData });
+    window.whop?.track?.("cta_click", {
+      context: visitorData,
+    });
 
     window.location.href =
       "https://www.youtube.com/@1rokitg?sub_confirmation=1";
@@ -101,10 +129,11 @@ export const CallToAction: React.FC<
             }}
           />
         )}
+
         {/* VIDEO */}
         <button
           type="button"
-          onClick={handleClick}
+          onClick={handleVideoClick}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onFocus={() => setIsHovered(true)}
