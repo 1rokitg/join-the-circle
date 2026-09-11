@@ -191,8 +191,6 @@ export default async function RootLayout({
           }}
         />
 
-        <script async src="https://tally.so/widgets/embed.js"></script>
-
         <meta name="og:title" content={home.title} />
         <meta name="og:description" content={home.description} />
         <meta name="og:image" content={ogImageUrl} />
