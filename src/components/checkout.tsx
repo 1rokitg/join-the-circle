@@ -137,12 +137,12 @@ export function EmbeddedCheckout({
             }}
           >
             <Checkout
-              plan="plan_lR3qQD57fpV7O"
+              plan="plan_PgzidF1TD8ASv"
               affiliateCode="rokitg"
               attribution={{
                 source: "rokitg.com",
               }}
-              returnUrl="https://whop.com/rokitg"
+              returnUrl="https://x.com/1rokitg"
             >
               <CheckoutElement className="rounded-lg" />
             </Checkout>
