@@ -10,7 +10,7 @@ import {
   Text,
   RevealFx,
 } from "@once-ui-system/core";
-import { CallToAction } from "@/components/cta";
+import { HomeCheckout } from "@/components/home-client";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -89,7 +89,7 @@ export default async function Home() {
         </Column>
       </Column>
 
-      <CallToAction trustBadges={true} />
+      <HomeCheckout />
     </Column>
   );
 }

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 interface CallToActionProps extends React.ComponentProps<typeof Column> {
   trustBadges: boolean;
+  onCheckout?: () => void;
 }
 
 const FREE_COMMUNITY_URL = "https://whop.com/rokitg/free-comm";
@@ -23,47 +24,62 @@ declare global {
 
 export const CallToAction: React.FC<CallToActionProps> = ({
   trustBadges,
+  onCheckout,
   ...flex
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  const track = (event: string, data: Record<string, unknown>) => {
+    try {
+      window.whop?.track?.(event, data);
+    } catch {
+      // Navigation should never depend on analytics.
+    }
+  };
   const videoId = "b4vnWgUmAa8";
   const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
   useEffect(() => {
-    window.whop?.track?.("view_content", {
+    track("view_content", {
       content: "video_funnel",
     });
 
     return () => {
-      window.whop?.track?.("leave_page", {
+      track("leave_page", {
         page: "free_funnel",
       });
     };
   }, []);
 
   const handleVideoClick = () => {
-    window.whop?.track?.("free_class_click", { videoId });
+    track("free_class_click", { videoId });
 
-    window.location.href = "https://www.youtube.com/watch?v=" + videoId;
+    window.location.assign("https://www.youtube.com/watch?v=" + videoId);
   };
 
   const handleCommunityClick = () => {
-    window.whop?.track?.("free_community_click", {
+    track("free_community_click", {
       destination: "whop_free_community",
     });
 
-    window.location.href = FREE_COMMUNITY_URL;
+    window.location.assign(FREE_COMMUNITY_URL);
   };
 
   const handleYoutubeClick = () => {
-    window.whop?.track?.("youtube_subscribe_click", {
+    track("youtube_subscribe_click", {
       destination: "youtube_channel",
     });
 
-    window.location.href = YOUTUBE_CHANNEL_URL;
+    window.location.assign(YOUTUBE_CHANNEL_URL);
   };
 
+  const handlePurchaseClick = () => {
+    track("direct_purchase_click", {
+      destination: "whop_checkout",
+    });
+
+    onCheckout?.();
+  };
   if (newsletter.display === false) {
     return null;
   }
@@ -357,9 +373,25 @@ export const CallToAction: React.FC<CallToActionProps> = ({
 
           <Button
             type="button"
+            onClick={handlePurchaseClick}
+            size="l"
+            variant="secondary"
+            style={{
+              width: "100%",
+              minHeight: 56,
+              borderRadius: 10,
+              fontSize: "clamp(15px, 1.8vw, 18px)",
+              fontWeight: 700,
+            }}
+          >
+            YA ESTOY LISTO — VER EL PROGRAMA
+          </Button>
+          <Button
+            type="button"
             onClick={handleYoutubeClick}
             size="l"
             variant="secondary"
+            prefixIcon="youtube"
             style={{
               width: "100%",
               minHeight: 56,
