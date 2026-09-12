@@ -42,8 +42,8 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
   useEffect(() => {
-    track("view_content", {
-      content: "video_funnel",
+    track("Funnel Video", {
+      videoId,
     });
 
     return () => {

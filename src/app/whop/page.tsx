@@ -8,10 +8,10 @@ export default function NotFound() {
 
   useEffect(() => {
     // this fires when the page is loaded
-    window.whop?.track?.("view_content", { content: "whop_redirect" });
+    window.whop?.track?.("Redirect To Whop", { content: "whop_redirect" });
     return () => {
       // this fires when the page is unloaded
-      window.whop?.track?.("leave_content", { content: "whop_redirect" });
+      window.whop?.track?.("Leave Content", { content: "whop_redirect" });
     };
   }, []);
 
