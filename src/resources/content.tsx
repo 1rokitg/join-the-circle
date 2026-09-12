@@ -84,15 +84,15 @@ const home: Home = {
             height={26}
             style={{ width: "26px", height: "26px", borderRadius: "100%" }}
           />
-          <strong className="">Telegram Calls</strong>
+          <strong className="">Fomo App</strong>
         </Row>
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
-          @1rokitg
+          Únete ahora
         </Text>
       </Row>
     ),
-    href: "https://t.me/rok1tg",
+    href: "https://fomo.family/r/1rokitg",
   },
   subline: (
     <>
