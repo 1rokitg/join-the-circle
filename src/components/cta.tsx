@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 interface CallToActionProps extends React.ComponentProps<typeof Column> {
   trustBadges: boolean;
   onCheckout?: () => void;
+  onCommunityCheckout?: () => void;
 }
 
 const FREE_COMMUNITY_URL = "https://whop.com/rokitg/free-comm";
@@ -25,6 +26,7 @@ declare global {
 export const CallToAction: React.FC<CallToActionProps> = ({
   trustBadges,
   onCheckout,
+  onCommunityCheckout,
   ...flex
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -62,7 +64,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
       destination: "whop_free_community",
     });
 
-    window.location.assign(FREE_COMMUNITY_URL);
+    onCommunityCheckout?.();
   };
 
   const handleYoutubeClick = () => {
@@ -393,6 +395,8 @@ export const CallToAction: React.FC<CallToActionProps> = ({
             variant="secondary"
             prefixIcon="youtube"
             style={{
+              background: "#ed1238",
+              color: "#fff",
               width: "100%",
               minHeight: 56,
               borderRadius: 10,

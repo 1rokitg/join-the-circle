@@ -7,11 +7,13 @@ import { useEffect, useState } from "react";
 
 interface EmbeddedCheckoutProps {
   open: boolean;
+  plan?: string;
   onClose?: () => void;
 }
 
 export function EmbeddedCheckout({
   open,
+  plan = "plan_PgzidF1TD8ASv",
   onClose = () => {},
 }: EmbeddedCheckoutProps) {
   const [mounted, setMounted] = useState(false);
@@ -125,7 +127,7 @@ export function EmbeddedCheckout({
             }}
           >
             <Checkout
-              plan="plan_PgzidF1TD8ASv"
+              plan={plan}
               affiliateCode="rokitg"
               attribution={{
                 source: "rokitg.com",
