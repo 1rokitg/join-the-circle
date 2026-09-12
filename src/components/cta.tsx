@@ -54,21 +54,21 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   }, []);
 
   const handleVideoClick = () => {
-    track("free_class_click", { videoId });
+    track("Video Thumbnail Click", { videoId, destination: "youtube" });
 
     window.location.assign("https://www.youtube.com/watch?v=" + videoId);
   };
 
   const handleCommunityClick = () => {
-    track("Free Community Checkout", {
-      destination: "whop_free_community",
+    track("Free Checkout", {
+      destination: "whop_free_community_checkout",
     });
 
     onCommunityCheckout?.();
   };
 
   const handleYoutubeClick = () => {
-    track("Youtube Subscribe Click", {
+    track("Youtube Subscribe Intent", {
       destination: "youtube_channel",
     });
 
@@ -76,8 +76,8 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   };
 
   const handlePurchaseClick = () => {
-    track("Direct Purchase Checkout", {
-      destination: "whop_checkout",
+    track("Membership Checkout", {
+      destination: "whop_purchase_checkout",
     });
 
     onCheckout?.();
