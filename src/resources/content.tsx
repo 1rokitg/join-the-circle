@@ -79,11 +79,11 @@ const home: Home = {
       <Row gap="12" vertical="center">
         <Row gap="8" vertical="center">
           <Image
-            src="/images/pfp2026.jpg"
-            alt="RokitG Profile Picture"
+            src="/images/fomo-logo.png"
+            alt="Fomo App logo"
             width={26}
             height={26}
-            style={{ width: "26px", height: "26px", borderRadius: "100%" }}
+            style={{ width: "26px", height: "26px", borderRadius: "6px" }}
           />
           <strong className="">Fomo App</strong>
         </Row>
