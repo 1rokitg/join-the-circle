@@ -73,7 +73,7 @@ export function FomoRank() {
 
   return (
     <Text as="span" aria-live="polite">
-      #{displayRank} Finanzas gratis ES
+      #{displayRank} Finanzas gratis 🇪🇸
     </Text>
   );
 }
