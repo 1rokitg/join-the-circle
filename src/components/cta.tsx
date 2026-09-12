@@ -60,7 +60,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   };
 
   const handleCommunityClick = () => {
-    track("free_community_click", {
+    track("Free Community Checkout", {
       destination: "whop_free_community",
     });
 
@@ -68,7 +68,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   };
 
   const handleYoutubeClick = () => {
-    track("youtube_subscribe_click", {
+    track("Youtube Subscribe Click", {
       destination: "youtube_channel",
     });
 
@@ -76,7 +76,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   };
 
   const handlePurchaseClick = () => {
-    track("direct_purchase_click", {
+    track("Direct Purchase Checkout", {
       destination: "whop_checkout",
     });
 
