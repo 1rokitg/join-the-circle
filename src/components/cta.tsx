@@ -386,7 +386,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
               fontWeight: 700,
             }}
           >
-            YA ESTOY LISTO — VER EL PROGRAMA
+            QUIERO ENTRAR
           </Button>
           <Button
             type="button"

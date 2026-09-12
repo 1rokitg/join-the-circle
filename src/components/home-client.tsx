@@ -13,7 +13,7 @@ export function HomeCheckout() {
   return (
     <>
       <CallToAction
-        trustBadges={true}
+        trustBadges={false}
         onCommunityCheckout={() => setCheckoutPlan(FREE_COMMUNITY_PLAN)}
         onCheckout={() => setCheckoutPlan(PAID_PROGRAM_PLAN)}
       />
