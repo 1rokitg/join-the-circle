@@ -10,6 +10,7 @@ import {
 } from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 import Image from "next/image";
+import { FomoRank } from "@/components/FomoRank";
 
 const person: Person = {
   firstName: "Rokit",
@@ -88,7 +89,7 @@ const home: Home = {
         </Row>
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
-          Únete ahora
+          <FomoRank />
         </Text>
       </Row>
     ),
