@@ -41,20 +41,13 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   const videoId = "b4vnWgUmAa8";
   const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
-  useEffect(() => {
-    track("Funnel Video", {
-      videoId,
-    });
-
-    return () => {
-      track("leave_page", {
-        page: "free_funnel",
-      });
-    };
-  }, []);
-
   const handleVideoClick = () => {
-    track("Video Thumbnail Click", { videoId, destination: "youtube" });
+    track("Youtube Video view", {
+      videoId,
+      timestamp: new Date().toISOString(),
+      destination: "youtube_channel",
+      page: "landing",
+    });
 
     window.location.assign("https://www.youtube.com/watch?v=" + videoId);
   };
