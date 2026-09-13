@@ -1,6 +1,7 @@
 "use client";
 
 import { mailchimp, newsletter } from "@/resources";
+import { trackWhopEvent, WHOP_EVENTS } from "@/lib/whop";
 import {
   Button,
   Heading,
@@ -211,7 +212,7 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({
        * This survives the React re-render caused by setIsCheckingOut().
        */
       setVisitorData(newVisitorData);
-      window.whop?.track?.("Lead", { email: submittedEmail });
+      trackWhopEvent(WHOP_EVENTS.leadSubmitted, { source: "newsletter" });
 
       setIsCheckingOut(true);
     } catch (err) {

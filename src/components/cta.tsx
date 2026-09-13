@@ -1,9 +1,10 @@
 "use client";
 
 import { newsletter } from "@/resources";
+import { trackWhopEvent, WHOP_EVENTS } from "@/lib/whop";
 import { Button, Column, Text } from "@once-ui-system/core";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface CallToActionProps extends React.ComponentProps<typeof Column> {
   trustBadges: boolean;
@@ -11,7 +12,6 @@ interface CallToActionProps extends React.ComponentProps<typeof Column> {
   onCommunityCheckout?: () => void;
 }
 
-const FREE_COMMUNITY_URL = "https://whop.com/rokitg/free-comm";
 const YOUTUBE_CHANNEL_URL =
   "https://www.youtube.com/@1rokitg?sub_confirmation=1";
 
@@ -31,37 +31,28 @@ export const CallToAction: React.FC<CallToActionProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const track = (event: string, data: Record<string, unknown>) => {
-    try {
-      window.whop?.track?.(event, data);
-    } catch {
-      // Navigation should never depend on analytics.
-    }
-  };
   const videoId = "b4vnWgUmAa8";
   const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
   const handleVideoClick = () => {
-    track("Youtube Video view", {
+    trackWhopEvent(WHOP_EVENTS.videoClicked, {
       videoId,
-      timestamp: new Date().toISOString(),
       destination: "youtube_channel",
-      page: "landing",
     });
 
     window.location.assign("https://www.youtube.com/watch?v=" + videoId);
   };
 
   const handleCommunityClick = () => {
-    track("Free Checkout", {
-      destination: "whop_free_community_checkout",
+    trackWhopEvent(WHOP_EVENTS.communityCheckoutOpened, {
+      destination: "whop_free_community",
     });
 
     onCommunityCheckout?.();
   };
 
   const handleYoutubeClick = () => {
-    track("Youtube Subscribe Intent", {
+    trackWhopEvent(WHOP_EVENTS.youtubeSubscribeClicked, {
       destination: "youtube_channel",
     });
 
@@ -69,8 +60,8 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   };
 
   const handlePurchaseClick = () => {
-    track("Membership Checkout", {
-      destination: "whop_purchase_checkout",
+    trackWhopEvent(WHOP_EVENTS.programCheckoutOpened, {
+      destination: "whop_paid_program",
     });
 
     onCheckout?.();

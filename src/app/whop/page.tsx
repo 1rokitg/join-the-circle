@@ -1,18 +1,16 @@
 "use client";
 
 import { Column, Heading, Text } from "@once-ui-system/core";
+import { trackWhopEvent, WHOP_EVENTS } from "@/lib/whop";
 import { useEffect, useState } from "react";
 
 export default function NotFound() {
   const [secondsLeft, setSecondsLeft] = useState(5);
 
   useEffect(() => {
-    // this fires when the page is loaded
-    window.whop?.track?.("Redirect To Whop", { content: "whop_redirect" });
-    return () => {
-      // this fires when the page is unloaded
-      window.whop?.track?.("Leave Content", { content: "whop_redirect" });
-    };
+    trackWhopEvent(WHOP_EVENTS.whopRedirectStarted, {
+      destination: "https://whop.com/rokitg",
+    });
   }, []);
 
   useEffect(() => {

@@ -26,6 +26,23 @@ import {
 
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { headers } from "next/headers";
+
+function getRequestIp(requestHeaders: Headers) {
+  const forwardedFor = requestHeaders.get("x-forwarded-for");
+  const ip = forwardedFor?.split(",")[0]?.trim() ?? requestHeaders.get("x-real-ip");
+
+  return ip?.replace(/^::ffff:/, "");
+}
+
+function shouldLoadWhop(requestHeaders: Headers) {
+  const excludedIps = (process.env.WHOP_EXCLUDED_IPS ?? "")
+    .split(",")
+    .map((ip) => ip.trim())
+    .filter(Boolean);
+
+  return !excludedIps.includes(getRequestIp(requestHeaders) ?? "");
+}
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -51,6 +68,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const requestHeaders = await headers();
+  const loadWhop = shouldLoadWhop(requestHeaders);
   const siteUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
     : "http://localhost:3000";
@@ -163,12 +182,14 @@ export default async function RootLayout({
           `,
           }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+        {loadWhop && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
               !function(w,d,s,u,n,a,b){if(w[n])return;a=w[n]={q:[],t:+new Date,s:[],o:u,track:function(){a.q.push([+new Date].concat([].slice.call(arguments)))},setScope:function(){a.s=[].slice.call(arguments).filter(function(x){return typeof x==="string"});a.q.push([+new Date,"setScope"].concat(a.s))},scope:function(){var c=[].slice.call(arguments);return{track:function(){a.q.push([+new Date].concat([].slice.call(arguments)).concat([{__scope:c}]))}}}};b=d.createElement(s);b.async=1;b.src=u+"/s.js";d.getElementsByTagName(s)[0].parentNode.insertBefore(b,d.getElementsByTagName(s)[0])}(window,document,"script","https://t.whop.tw","whop");whop.setScope("biz_ROKYKZdV9YGZP7");           `,
-          }}
-        />
+            }}
+          />
+        )}
         <script
           dangerouslySetInnerHTML={{
             __html: `
