@@ -23,6 +23,7 @@ const routes: RoutesConfig = {
   "/blog": true,
   "/whop": false,
   "/links": true,
+  "/sponsors/bb": true,
 };
 
 const display: DisplayConfig = {

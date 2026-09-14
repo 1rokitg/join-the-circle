@@ -1,11 +1,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
-import { routes, display, person, about, blog, work, whop } from "@/resources";
+import { routes, display, person, work, whop } from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 
@@ -92,12 +93,17 @@ export const Header = () => {
         <Row fillWidth horizontal="center">
           <Row
             background="page"
-            border="neutral-alpha-weak"
-            radius="m-4"
+            border="brand-alpha-medium"
+            radius="l"
             shadow="l"
             padding="4"
+            gap="4"
             horizontal="center"
             zIndex={1}
+            style={{
+              backdropFilter: "blur(18px)",
+              boxShadow: "0 16px 45px rgba(0, 0, 0, 0.24)",
+            }}
           >
             <Row
               gap="4"
@@ -107,35 +113,91 @@ export const Header = () => {
             >
               {routes["/"] && (
                 <ToggleButton
+                  className={styles.compactItem}
                   prefixIcon="home"
                   href="/"
+                  label="Home"
                   selected={pathname === "/"}
                 />
               )}
               <Line background="neutral-alpha-medium" vert maxHeight="24" />
-              {routes["/about"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="person"
-                      href="/about"
-                      label={about.label}
-                      selected={pathname === "/about"}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="person"
-                      href="/about"
-                      selected={pathname === "/about"}
-                    />
-                  </Row>
-                </>
-              )}
+              <>
+                <Row s={{ hide: true }}>
+                  <ToggleButton
+                    className={styles.compactItem}
+                    href="https://fomo.family/r/1rokitg"
+                    label={
+                      <Row gap="4" vertical="center">
+                        <Image
+                          src="/images/fomo-logo.png"
+                          alt=""
+                          width={16}
+                          height={16}
+                          style={{ borderRadius: "4px" }}
+                        />
+                        Fomo
+                      </Row>
+                    }
+                    selected={false}
+                  />
+                </Row>
+                <Row hide s={{ hide: false }}>
+                  <ToggleButton
+                    href="https://fomo.family/r/1rokitg"
+                    label={
+                      <Image
+                        src="/images/fomo-logo.png"
+                        alt="Fomo"
+                        width={16}
+                        height={16}
+                        style={{ borderRadius: "4px" }}
+                      />
+                    }
+                    selected={false}
+                  />
+                </Row>
+              </>
+              <>
+                <Row s={{ hide: true }}>
+                  <ToggleButton
+                    className={styles.compactItem}
+                    href="/sponsors/bb"
+                    label={
+                      <Row gap="4" vertical="center">
+                        <Image
+                          src="/images/basedbot-logo.png"
+                          alt=""
+                          width={16}
+                          height={16}
+                          style={{ borderRadius: "4px", background: "#fff" }}
+                        />
+                        Trading Bot
+                      </Row>
+                    }
+                    selected={pathname.startsWith("/sponsors/bb")}
+                  />
+                </Row>
+                <Row hide s={{ hide: false }}>
+                  <ToggleButton
+                    href="/sponsors/bb"
+                    label={
+                      <Image
+                        src="/images/basedbot-logo.png"
+                        alt="Trading Bot"
+                        width={16}
+                        height={16}
+                        style={{ borderRadius: "4px", background: "#fff" }}
+                      />
+                    }
+                    selected={pathname.startsWith("/sponsors/bb")}
+                  />
+                </Row>
+              </>
               {routes["/work"] && (
                 <>
                   <Row s={{ hide: true }}>
                     <ToggleButton
+                      className={styles.compactItem}
                       prefixIcon="grid"
                       href="/work"
                       label={work.label}
@@ -151,29 +213,11 @@ export const Header = () => {
                   </Row>
                 </>
               )}
-              {routes["/blog"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="book"
-                      href="/blog"
-                      label={blog.label}
-                      selected={pathname.startsWith("/blog")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="book"
-                      href="/blog"
-                      selected={pathname.startsWith("/blog")}
-                    />
-                  </Row>
-                </>
-              )}
               {routes["/whop"] && (
                 <>
                   <Row s={{ hide: true }}>
                     <ToggleButton
+                      className={styles.compactItem}
                       prefixIcon="whop"
                       href="/whop"
                       label={whop.label}
