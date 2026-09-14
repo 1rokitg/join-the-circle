@@ -1,19 +1,48 @@
 export const WHOP_EVENTS = {
-  leadSubmitted: "lead_submitted",
-  communityCheckoutOpened: "community_checkout_opened",
-  programCheckoutOpened: "program_checkout_opened",
-  videoClicked: "video_clicked",
-  youtubeSubscribeClicked: "youtube_subscribe_clicked",
-  whopRedirectStarted: "whop_redirect_started",
+  leadSubmitted: "Lead Submitted",
+  checkoutStarted: "Checkout Started",
+  videoClicked: "Content Video Clicked",
+  youtubeSubscribeClicked: "YouTube Subscription Clicked",
+  whopRedirectStarted: "Whop Redirect Started",
 } as const;
 
 type WhopEvent = (typeof WHOP_EVENTS)[keyof typeof WHOP_EVENTS];
 
 type WhopProperties = Record<string, string | number | boolean | undefined>;
 
+type WhopContext = {
+  country?: string;
+};
+
+declare global {
+  interface Window {
+    whop?: {
+      track?: (event: string, data: Record<string, unknown>) => void;
+    };
+    __whopContext?: WhopContext;
+  }
+}
+
+function getTrackingContext(): WhopProperties {
+  const url = new URL(window.location.href);
+  const referrer = document.referrer ? new URL(document.referrer).hostname : "direct";
+
+  return {
+    country: window.__whopContext?.country,
+    language: navigator.language,
+    locale: document.documentElement.lang,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    referrer,
+    utm_source: url.searchParams.get("utm_source") ?? undefined,
+    utm_medium: url.searchParams.get("utm_medium") ?? undefined,
+    utm_campaign: url.searchParams.get("utm_campaign") ?? undefined,
+  };
+}
+
 export function trackWhopEvent(event: WhopEvent, properties: WhopProperties = {}) {
   try {
     window.whop?.track?.(event, {
+      ...getTrackingContext(),
       ...properties,
       page: window.location.pathname,
     });

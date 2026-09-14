@@ -2,6 +2,7 @@
 
 import { newsletter } from "@/resources";
 import { trackWhopEvent, WHOP_EVENTS } from "@/lib/whop";
+import { WHOP_OFFERS } from "@/lib/whop-offers";
 import { Button, Column, Text } from "@once-ui-system/core";
 import Image from "next/image";
 import { useState } from "react";
@@ -14,14 +15,6 @@ interface CallToActionProps extends React.ComponentProps<typeof Column> {
 
 const YOUTUBE_CHANNEL_URL =
   "https://www.youtube.com/@1rokitg?sub_confirmation=1";
-
-declare global {
-  interface Window {
-    whop?: {
-      track?: (event: string, data: Record<string, any>) => void;
-    };
-  }
-}
 
 export const CallToAction: React.FC<CallToActionProps> = ({
   trustBadges,
@@ -44,8 +37,11 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   };
 
   const handleCommunityClick = () => {
-    trackWhopEvent(WHOP_EVENTS.communityCheckoutOpened, {
-      destination: "whop_free_community",
+    trackWhopEvent(WHOP_EVENTS.checkoutStarted, {
+      offer: WHOP_OFFERS.freeCommunity.name,
+      plan_id: WHOP_OFFERS.freeCommunity.planId,
+      payment_type: WHOP_OFFERS.freeCommunity.paymentType,
+      amount: WHOP_OFFERS.freeCommunity.amount,
     });
 
     onCommunityCheckout?.();
@@ -60,8 +56,10 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   };
 
   const handlePurchaseClick = () => {
-    trackWhopEvent(WHOP_EVENTS.programCheckoutOpened, {
-      destination: "whop_paid_program",
+    trackWhopEvent(WHOP_EVENTS.checkoutStarted, {
+      offer: WHOP_OFFERS.paidProgram.name,
+      plan_id: WHOP_OFFERS.paidProgram.planId,
+      payment_type: WHOP_OFFERS.paidProgram.paymentType,
     });
 
     onCheckout?.();

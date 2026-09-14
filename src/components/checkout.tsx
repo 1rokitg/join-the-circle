@@ -2,6 +2,7 @@
 
 import { loadWhop } from "@whop/elements";
 import { Checkout, CheckoutElement, WhopElements } from "@whop/elements-react";
+import { WHOP_OFFERS } from "@/lib/whop-offers";
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 
@@ -13,7 +14,7 @@ interface EmbeddedCheckoutProps {
 
 export function EmbeddedCheckout({
   open,
-  plan = "plan_PgzidF1TD8ASv",
+  plan = WHOP_OFFERS.paidProgram.planId,
   onClose = () => {},
 }: EmbeddedCheckoutProps) {
   const [mounted, setMounted] = useState(false);

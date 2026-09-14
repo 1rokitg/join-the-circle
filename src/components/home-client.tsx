@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { CallToAction } from "@/components/cta";
 import { EmbeddedCheckout } from "@/components/checkout";
-
-const FREE_COMMUNITY_PLAN = "plan_6hY35QLQssD74";
-const PAID_PROGRAM_PLAN = "plan_PgzidF1TD8ASv";
+import { WHOP_OFFERS } from "@/lib/whop-offers";
 
 export function HomeCheckout() {
   const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
@@ -14,12 +12,12 @@ export function HomeCheckout() {
     <>
       <CallToAction
         trustBadges={false}
-        onCommunityCheckout={() => setCheckoutPlan(FREE_COMMUNITY_PLAN)}
-        onCheckout={() => setCheckoutPlan(PAID_PROGRAM_PLAN)}
+        onCommunityCheckout={() => setCheckoutPlan(WHOP_OFFERS.freeCommunity.planId)}
+        onCheckout={() => setCheckoutPlan(WHOP_OFFERS.paidProgram.planId)}
       />
       <EmbeddedCheckout
         open={checkoutPlan !== null}
-        plan={checkoutPlan ?? PAID_PROGRAM_PLAN}
+        plan={checkoutPlan ?? WHOP_OFFERS.paidProgram.planId}
         onClose={() => setCheckoutPlan(null)}
       />
     </>

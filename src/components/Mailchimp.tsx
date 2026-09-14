@@ -15,14 +15,6 @@ import { Opacity as opacity, SpacingToken } from "@once-ui-system/core";
 import { useEffect, useRef, useState } from "react";
 import { EmbeddedCheckout } from "./checkout";
 
-declare global {
-  interface Window {
-    whop?: {
-      track?: (event: string, data: Record<string, any>) => void;
-    };
-  }
-}
-
 export interface VisitorData {
   identifier: string;
   email: string;
