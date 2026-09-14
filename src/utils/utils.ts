@@ -68,7 +68,25 @@ function getMDXData(dir: string) {
   });
 }
 
-export function getPosts(customPath = ["", "", "", ""]) {
-  const postsDir = path.join(process.cwd(), ...customPath);
+const contentDirectories = {
+  "src/app/blog/posts": path.join(process.cwd(), "src", "app", "blog", "posts"),
+  "src/app/work/projects": path.join(
+    process.cwd(),
+    "src",
+    "app",
+    "work",
+    "projects",
+  ),
+} as const;
+
+export function getPosts(customPath: string[]) {
+  const postsDir = contentDirectories[
+    customPath.join("/") as keyof typeof contentDirectories
+  ];
+
+  if (!postsDir) {
+    notFound();
+  }
+
   return getMDXData(postsDir);
 }
