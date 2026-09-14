@@ -54,7 +54,7 @@ export const Header = () => {
         >
           <ToggleButton
             prefixIcon="person"
-            href="/app?entry=profile"
+            href="/app"
             aria-label="Open the RokitG app"
             selected={pathname.startsWith("/app")}
             onClick={() =>
@@ -224,7 +224,7 @@ export const Header = () => {
             textVariant="body-default-s"
           >
             <ToggleButton
-              href="/app?entry=login"
+              href="/app"
               label="Log in"
               selected={pathname.startsWith("/app")}
               onClick={() =>
