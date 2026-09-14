@@ -23,13 +23,14 @@ const routes: RoutesConfig = {
   "/blog": true,
   "/whop": false,
   "/links": true,
+  "/app": true,
   "/sponsors/bb": true,
   "/sponsors/fomo": true,
 };
 
 const display: DisplayConfig = {
-  location: true,
-  time: true,
+  location: false,
+  time: false,
   themeSwitcher: true,
 };
 
