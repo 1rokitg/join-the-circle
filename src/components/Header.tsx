@@ -125,7 +125,7 @@ export const Header = () => {
                 <Row s={{ hide: true }}>
                   <ToggleButton
                     className={styles.compactItem}
-                    href="https://fomo.family/r/1rokitg"
+                    href="/sponsors/fomo"
                     label={
                       <Row gap="4" vertical="center">
                         <Image
@@ -138,12 +138,12 @@ export const Header = () => {
                         Fomo
                       </Row>
                     }
-                    selected={false}
+                    selected={pathname.startsWith("/sponsors/fomo")}
                   />
                 </Row>
                 <Row hide s={{ hide: false }}>
                   <ToggleButton
-                    href="https://fomo.family/r/1rokitg"
+                    href="/sponsors/fomo"
                     label={
                       <Image
                         src="/images/fomo-logo.png"
@@ -153,7 +153,7 @@ export const Header = () => {
                         style={{ borderRadius: "4px" }}
                       />
                     }
-                    selected={false}
+                    selected={pathname.startsWith("/sponsors/fomo")}
                   />
                 </Row>
               </>

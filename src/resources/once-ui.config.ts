@@ -24,6 +24,7 @@ const routes: RoutesConfig = {
   "/whop": false,
   "/links": true,
   "/sponsors/bb": true,
+  "/sponsors/fomo": true,
 };
 
 const display: DisplayConfig = {
