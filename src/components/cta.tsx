@@ -37,7 +37,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   };
 
   const handleCommunityClick = () => {
-    trackWhopEvent(WHOP_EVENTS.checkoutStarted, {
+    trackWhopEvent(WHOP_EVENTS.freeCheckout, {
       offer: WHOP_OFFERS.freeCommunity.name,
       plan_id: WHOP_OFFERS.freeCommunity.planId,
       payment_type: WHOP_OFFERS.freeCommunity.paymentType,
@@ -56,7 +56,7 @@ export const CallToAction: React.FC<CallToActionProps> = ({
   };
 
   const handlePurchaseClick = () => {
-    trackWhopEvent(WHOP_EVENTS.checkoutStarted, {
+    trackWhopEvent(WHOP_EVENTS.paidCheckout, {
       offer: WHOP_OFFERS.paidProgram.name,
       plan_id: WHOP_OFFERS.paidProgram.planId,
       payment_type: WHOP_OFFERS.paidProgram.paymentType,

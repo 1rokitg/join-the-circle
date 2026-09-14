@@ -1,11 +1,12 @@
 export const WHOP_EVENTS = {
-  leadSubmitted: "Lead Submitted",
-  checkoutStarted: "Checkout Started",
-  videoClicked: "Content Video Clicked",
-  youtubeSubscribeClicked: "YouTube Subscription Clicked",
-  whopRedirectStarted: "Whop Redirect Started",
-  basedBotSponsorViewed: "BasedBot Sponsor View",
-  fomoSponsorViewed: "Fomo Sponsor View",
+  leadSubmitted: "Lead",
+  freeCheckout: "Checkout - Free Community",
+  paidCheckout: "Checkout - Social Capital",
+  videoClicked: "YouTube Video Click",
+  youtubeSubscribeClicked: "YouTube Subscription Click",
+  whopRedirectStarted: "Redirected to Whop",
+  basedBotSponsorViewed: "BasedBot Sponsor",
+  fomoSponsorViewed: "Fomo Sponsor",
 } as const;
 
 type WhopEvent = (typeof WHOP_EVENTS)[keyof typeof WHOP_EVENTS];
@@ -27,7 +28,9 @@ declare global {
 
 function getTrackingContext(): WhopProperties {
   const url = new URL(window.location.href);
-  const referrer = document.referrer ? new URL(document.referrer).hostname : "direct";
+  const referrer = document.referrer
+    ? new URL(document.referrer).hostname
+    : "direct";
 
   return {
     country: window.__whopContext?.country,
@@ -41,7 +44,10 @@ function getTrackingContext(): WhopProperties {
   };
 }
 
-export function trackWhopEvent(event: WhopEvent, properties: WhopProperties = {}) {
+export function trackWhopEvent(
+  event: WhopEvent,
+  properties: WhopProperties = {},
+) {
   try {
     window.whop?.track?.(event, {
       ...getTrackingContext(),
