@@ -29,7 +29,7 @@ export default function TradingBotSponsorPage() {
               height={22}
               style={{ borderRadius: "5px", background: "#fff" }}
             />
-            Trading Bot
+            Based Bot
           </Row>
         </Badge>
         <Heading wrap="balance" variant="display-strong-l">

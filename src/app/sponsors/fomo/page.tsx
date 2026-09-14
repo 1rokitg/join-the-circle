@@ -1,4 +1,4 @@
-import { Badge, Button, Column, Heading, Row, Text } from "@once-ui-system/core";
+import { Button, Column, Heading, Text } from "@once-ui-system/core";
 import Image from "next/image";
 
 const FOMO_URL = "https://fomo.family/r/1rokitg";
@@ -12,24 +12,6 @@ export default function FomoSponsorPage() {
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
       <Column maxWidth="s" horizontal="center" align="center" gap="m">
-        <Badge
-          background="brand-alpha-weak"
-          paddingX="8"
-          paddingY="4"
-          onBackground="neutral-strong"
-          textVariant="label-default-s"
-        >
-          <Row gap="8" vertical="center">
-            <Image
-              src="/images/fomo-logo.png"
-              alt="Fomo"
-              width={22}
-              height={22}
-              style={{ borderRadius: "5px" }}
-            />
-            Fomo
-          </Row>
-        </Badge>
         <Heading wrap="balance" variant="display-strong-l">
           Fomo
         </Heading>
