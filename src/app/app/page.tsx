@@ -1,5 +1,6 @@
 import { Badge, Column, Heading, Icon, Row, Text } from "@once-ui-system/core";
 import { AppEntryTracker } from "@/components/AppEntryTracker";
+import { PrivyWaitlist } from "@/components/PrivyWaitlist";
 
 export const metadata = {
   title: "Platform Login | RokitG",
@@ -83,9 +84,7 @@ export default function AppPreviewPage() {
           Lessons, resources, and a clear path forward. All in one place.
         </Text>
         <Row borderTop="neutral-alpha-weak" paddingTop="16">
-          <Text onBackground="brand-strong" variant="label-default-s">
-            Member access coming soon
-          </Text>
+          <PrivyWaitlist />
         </Row>
       </Column>
 
