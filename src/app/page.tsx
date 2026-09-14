@@ -1,4 +1,4 @@
-import { home, about, person, baseURL, routes } from "@/resources";
+import { home, about, person, baseURL } from "@/resources";
 
 import {
   Column,

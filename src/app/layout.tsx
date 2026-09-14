@@ -54,12 +54,6 @@ export async function generateMetadata() {
   });
 }
 
-declare global {
-  interface Window {
-    dataLayer: any[];
-  }
-}
-
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -111,8 +105,6 @@ export default async function RootLayout({
               (function() {
                 try {
                   const root = document.documentElement;
-                  const defaultTheme = 'system';
-                  
                   // Set defaults from config
                   const config = ${JSON.stringify({
                     brand: style.brand,
@@ -161,27 +153,6 @@ export default async function RootLayout({
             `,
           }}
         />
-        {/* Google Ads signup conversion event */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-            function gtagSendEvent(url) {
-              var callback = function () {
-                if (typeof url === 'string') {
-                  window.location = url;
-                }
-              };
-
-              gtag('event', 'ads_conversion_signup', {
-                'event_callback': callback,
-                'event_timeout': 2000
-              });
-
-              return false;
-            }
-          `,
-          }}
-        />
         {loadWhop && (
           <>
             <script
@@ -197,28 +168,6 @@ export default async function RootLayout({
             />
           </>
         )}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-        window.TallyConfig = {
-          "formId": "WO7ora",
-          "popup": {
-            "emoji": {
-              "text": "👋",
-              "animation": "wave"
-            },
-            "layout": "modal",
-            "open": {
-              "trigger": "scroll",
-              "scrollPercent": 10
-            },
-            "formEventsForwarding": true
-          }
-        };
-        `,
-          }}
-        />
-
         <meta name="og:title" content={home.title} />
         <meta name="og:description" content={home.description} />
         <meta name="og:image" content={ogImageUrl} />
