@@ -1,5 +1,6 @@
 import { Button, Column, Heading, Text } from "@once-ui-system/core";
 import Image from "next/image";
+import { SponsorViewTracker } from "@/components/SponsorViewTracker";
 
 const FOMO_URL = "https://fomo.family/r/1rokitg";
 
@@ -11,6 +12,7 @@ export const metadata = {
 export default function FomoSponsorPage() {
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
+      <SponsorViewTracker sponsor="fomo" destination={FOMO_URL} />
       <Column maxWidth="s" horizontal="center" align="center" gap="m">
         <Heading wrap="balance" variant="display-strong-l">
           Fomo

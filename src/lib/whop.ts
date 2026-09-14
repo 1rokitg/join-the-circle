@@ -4,6 +4,8 @@ export const WHOP_EVENTS = {
   videoClicked: "Content Video Clicked",
   youtubeSubscribeClicked: "YouTube Subscription Clicked",
   whopRedirectStarted: "Whop Redirect Started",
+  basedBotSponsorViewed: "BasedBot Sponsor View",
+  fomoSponsorViewed: "Fomo Sponsor View",
 } as const;
 
 type WhopEvent = (typeof WHOP_EVENTS)[keyof typeof WHOP_EVENTS];
