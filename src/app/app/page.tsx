@@ -2,20 +2,22 @@ import { Badge, Column, Heading, Icon, Row, Text } from "@once-ui-system/core";
 import { AppEntryTracker } from "@/components/AppEntryTracker";
 
 export const metadata = {
-  title: "RokitG App",
+  title: "Platform Login | RokitG",
   description: "A focused learning space for beginner traders.",
 };
 
 const modules = [
   {
     title: "Trading foundations",
-    description: "Build the habits and vocabulary that keep beginners grounded.",
+    description:
+      "Build the habits and vocabulary that keep beginners grounded.",
     status: "Starting soon",
     icon: "book" as const,
   },
   {
     title: "Risk before reward",
-    description: "Learn how to protect your account before searching for the next setup.",
+    description:
+      "Learn how to protect your account before searching for the next setup.",
     status: "Member module",
     icon: "grid" as const,
   },
@@ -40,18 +42,51 @@ export default function AppPreviewPage() {
           paddingX="8"
           paddingY="4"
         >
-          ROKITG APP
+          Platform Login
         </Badge>
         <Heading wrap="balance" variant="display-strong-l">
-          Your trading path is taking shape.
+          Your next chapter.
         </Heading>
         <Text
           wrap="balance"
           onBackground="neutral-weak"
           variant="heading-default-xl"
         >
-          A focused learning space for beginner traders who want a process before they chase results.
+          A focused learning space for beginner traders who want a process
+          before they chase results.
         </Text>
+      </Column>
+
+      <Column
+        maxWidth="s"
+        fillWidth
+        background="surface"
+        border="brand-alpha-medium"
+        radius="l"
+        padding="32"
+        gap="24"
+      >
+        <Row gap="12" vertical="center">
+          <Row background="brand-alpha-weak" radius="m" padding="12">
+            <Icon name="person" onBackground="brand-strong" />
+          </Row>
+          <Column gap="4">
+            <Heading as="h2" variant="heading-strong-l">
+              Your learning space
+            </Heading>
+            <Text onBackground="neutral-weak" variant="body-default-s">
+              RokitG · Social Capital
+            </Text>
+          </Column>
+        </Row>
+        <Text onBackground="neutral-weak" variant="body-default-m">
+          Lessons, resources, and a clear path forward. All in one place.
+        </Text>
+        <Row borderTop="neutral-alpha-weak" paddingTop="16">
+          <Text onBackground="brand-strong" variant="label-default-s">
+            Member access coming soon
+          </Text>
+        </Row>
       </Column>
 
       <Column maxWidth="m" fillWidth gap="s">
@@ -68,7 +103,10 @@ export default function AppPreviewPage() {
             horizontal="between"
           >
             <Row gap="m" vertical="center">
-              <Icon name={module.icon} onBackground={index === 0 ? "brand-strong" : "neutral-weak"} />
+              <Icon
+                name={module.icon}
+                onBackground={index === 0 ? "brand-strong" : "neutral-weak"}
+              />
               <Column gap="4">
                 <Text variant="heading-strong-m">{module.title}</Text>
                 <Text onBackground="neutral-weak" variant="body-default-s">
@@ -84,7 +122,7 @@ export default function AppPreviewPage() {
       </Column>
 
       <Text align="center" onBackground="neutral-weak" variant="body-default-s">
-        The member area is opening in stages. Your public RokitG experience remains available while it grows.
+        The member area is opening in batches.
       </Text>
     </Column>
   );
