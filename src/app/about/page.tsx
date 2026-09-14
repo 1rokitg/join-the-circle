@@ -218,69 +218,6 @@ export default function About() {
               {about.intro.description}
             </Column>
           )}
-
-          {about.technical.display && (
-            <>
-              <Heading
-                as="h2"
-                id={about.technical.title}
-                variant="display-strong-s"
-                marginBottom="40"
-              >
-                {about.technical.title}
-              </Heading>
-
-              <Column fillWidth gap="l">
-                {about.technical.skills.map((skill, index) => (
-                  <Column key={`${skill}-${index}`} fillWidth gap="4">
-                    <Text id={skill.title} variant="heading-strong-l">
-                      {skill.title}
-                    </Text>
-
-                    <Text variant="body-default-m" onBackground="neutral-weak">
-                      {skill.description}
-                    </Text>
-
-                    {skill.tags && skill.tags.length > 0 && (
-                      <Row wrap gap="8" paddingTop="8">
-                        {skill.tags.map((tag, tagIndex) => (
-                          <Tag
-                            key={`${skill.title}-${tagIndex}`}
-                            size="l"
-                            prefixIcon={tag.icon}
-                          >
-                            {tag.name}
-                          </Tag>
-                        ))}
-                      </Row>
-                    )}
-
-                    {skill.images && skill.images.length > 0 && (
-                      <Row fillWidth paddingTop="m" gap="12" wrap>
-                        {skill.images.map((image, index) => (
-                          <Row
-                            key={index}
-                            border="neutral-medium"
-                            radius="m"
-                            minWidth={image.width}
-                            height={image.height}
-                          >
-                            <Media
-                              enlarge
-                              radius="m"
-                              sizes={image.width.toString()}
-                              alt={image.alt}
-                              src={image.src}
-                            />
-                          </Row>
-                        ))}
-                      </Row>
-                    )}
-                  </Column>
-                ))}
-              </Column>
-            </>
-          )}
         </Column>
       </Row>
 
