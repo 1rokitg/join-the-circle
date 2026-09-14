@@ -1,5 +1,6 @@
 import { Badge, Column, Heading, Icon, Row, Text } from "@once-ui-system/core";
 import { AppEntryTracker } from "@/components/AppEntryTracker";
+import { VisitorAvatar } from "@/components/VisitorAvatar";
 import { PrivyWaitlist } from "@/components/PrivyWaitlist";
 
 export const metadata = {
@@ -61,15 +62,16 @@ export default function AppPreviewPage() {
       <Column
         maxWidth="s"
         fillWidth
+        style={{ maxWidth: "36rem" }}
         background="surface"
-        border="brand-alpha-medium"
+        border="neutral-alpha-medium"
         radius="l"
         padding="32"
         gap="24"
       >
         <Row gap="12" vertical="center">
-          <Row background="brand-alpha-weak" radius="m" padding="12">
-            <Icon name="person" onBackground="brand-strong" />
+          <Row background="brand-alpha-weak" radius="m" padding="8">
+            <VisitorAvatar />
           </Row>
           <Column gap="4">
             <Heading as="h2" variant="heading-strong-l">
