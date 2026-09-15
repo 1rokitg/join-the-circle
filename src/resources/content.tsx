@@ -93,7 +93,7 @@ const home: Home = {
         </Text>
       </Row>
     ),
-    href: "https://fomo.family/r/1rokitg",
+    href: "https://fomo.family/r/rokitg",
   },
   subline: (
     <>
