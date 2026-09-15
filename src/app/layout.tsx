@@ -27,6 +27,7 @@ import {
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { headers } from "next/headers";
+import { ReferralClickTracker } from "@/components/ReferralClickTracker";
 
 function getRequestIp(requestHeaders: Headers) {
   const forwardedFor = requestHeaders.get("x-forwarded-for");
@@ -233,6 +234,7 @@ export default async function RootLayout({
           </RevealFx>
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
           <Header />
+          {loadWhop && <ReferralClickTracker />}
           <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
             <Flex horizontal="center" fillWidth minHeight="0">
               <RouteGuard>{children}</RouteGuard>

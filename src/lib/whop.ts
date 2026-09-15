@@ -7,6 +7,7 @@ export const WHOP_EVENTS = {
   whopRedirectStarted: "Redirected to Whop",
   basedBotSponsorViewed: "BasedBot Sponsor",
   fomoSponsorViewed: "Fomo Sponsor",
+  fomoReferralClicked: "Fomo Referral Click",
 } as const;
 
 type WhopEvent = (typeof WHOP_EVENTS)[keyof typeof WHOP_EVENTS];
