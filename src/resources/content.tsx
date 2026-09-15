@@ -128,11 +128,9 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        {person.firstName} is a{" "}
-        {person.location.split("/")[1]?.replace("_", " ")}-based{" "}
-        {person.role.toLowerCase()} with a passion for transforming complex
-        challenges into simple, elegant design solutions. Now he's built up a
-        name for himself in the trading community and decided to launch his own.
+        Soy Rokit, ingeniero de software en Madrid y parte del mundo del trading.
+        Detrás de ROKITG hay una comunidad que estoy construyendo. ¿Quieres conocerme
+        y formar parte de ella? Haz clic en Discord y únete gratis.
       </>
     ),
   },
