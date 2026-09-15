@@ -2,7 +2,7 @@ import { Button, Column, Heading, Text } from "@once-ui-system/core";
 import Image from "next/image";
 import { SponsorViewTracker } from "@/components/SponsorViewTracker";
 
-const FOMO_URL = "https://fomo.family/r/1rokitg";
+const FOMO_URL = "https://fomo.family/r/rokitg";
 
 export const metadata = {
   title: "Fomo | RokitG",
@@ -54,7 +54,12 @@ export default function FomoSponsorPage() {
             style={{ borderRadius: "28px" }}
           />
         </a>
-        <Button href={FOMO_URL} target="_blank" prefixIcon="arrowUpRight" size="l">
+        <Button
+          href={FOMO_URL}
+          target="_blank"
+          prefixIcon="arrowUpRight"
+          size="l"
+        >
           EXPLORE FOMO
         </Button>
       </Column>
