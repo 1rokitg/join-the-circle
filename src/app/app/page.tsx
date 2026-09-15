@@ -1,5 +1,4 @@
 import { Badge, Column, Heading, Icon, Row, Text } from "@once-ui-system/core";
-import { AppEntryTracker } from "@/components/AppEntryTracker";
 import { VisitorAvatar } from "@/components/VisitorAvatar";
 import { PrivyWaitlist } from "@/components/PrivyWaitlist";
 
@@ -34,7 +33,6 @@ const modules = [
 export default function AppPreviewPage() {
   return (
     <Column maxWidth="m" fillWidth gap="xl" paddingY="12" horizontal="center">
-      <AppEntryTracker />
       <Column maxWidth="s" horizontal="center" align="center" gap="m">
         <Badge
           background="brand-alpha-weak"

@@ -176,6 +176,11 @@ export default function About() {
               >
                 {social
                   .filter((item) => item.essential)
+                  .map((item) =>
+                    item.name === "Discord"
+                      ? { ...item, link: "https://discord.gg/VcjBxgtv" }
+                      : item,
+                  )
                   .map(
                     (item) =>
                       item.link && (

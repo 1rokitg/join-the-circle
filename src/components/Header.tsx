@@ -5,7 +5,6 @@ import Image from "next/image";
 
 import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
 
-import { trackWhopEvent, WHOP_EVENTS } from "@/lib/whop";
 import { routes, display, work, whop } from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
@@ -57,11 +56,6 @@ export const Header = () => {
             href="/app"
             aria-label="Open the RokitG app"
             selected={pathname.startsWith("/app")}
-            onClick={() =>
-              trackWhopEvent(WHOP_EVENTS.appEntryStarted, {
-                entry_point: "header_profile_icon",
-              })
-            }
           />
         </Row>
         <Row fillWidth horizontal="center">
@@ -227,11 +221,6 @@ export const Header = () => {
               href="/app"
               label="Log in"
               selected={pathname.startsWith("/app")}
-              onClick={() =>
-                trackWhopEvent(WHOP_EVENTS.appEntryStarted, {
-                  entry_point: "header_login",
-                })
-              }
             />
           </Flex>
         </Flex>
