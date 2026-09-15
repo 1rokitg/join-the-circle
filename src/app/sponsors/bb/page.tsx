@@ -1,6 +1,5 @@
 import { Badge, Button, Column, Heading, Row, Text } from "@once-ui-system/core";
 import Image from "next/image";
-import { SponsorViewTracker } from "@/components/SponsorViewTracker";
 
 const VIDEO_URL = "https://www.youtube.com/watch?v=kXMxDsIWPJo";
 const VIDEO_THUMBNAIL_URL =
@@ -14,7 +13,6 @@ export const metadata = {
 export default function TradingBotSponsorPage() {
   return (
     <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
-      <SponsorViewTracker sponsor="basedbot" destination={VIDEO_URL} />
       <Column maxWidth="s" horizontal="center" align="center" gap="m">
         <Badge
           background="brand-alpha-weak"

@@ -1,17 +1,10 @@
 "use client";
 
 import { Column, Heading, Text } from "@once-ui-system/core";
-import { trackWhopEvent, WHOP_EVENTS } from "@/lib/whop";
 import { useEffect, useState } from "react";
 
 export default function NotFound() {
   const [secondsLeft, setSecondsLeft] = useState(5);
-
-  useEffect(() => {
-    trackWhopEvent(WHOP_EVENTS.whopRedirectStarted, {
-      destination: "https://whop.com/rokitg",
-    });
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {

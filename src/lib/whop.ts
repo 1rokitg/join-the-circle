@@ -4,9 +4,6 @@ export const WHOP_EVENTS = {
   paidCheckout: "Checkout - Social Capital",
   videoClicked: "YouTube Video Click",
   youtubeSubscribeClicked: "YouTube Subscription Click",
-  whopRedirectStarted: "Redirected to Whop",
-  basedBotSponsorViewed: "BasedBot Sponsor",
-  fomoSponsorViewed: "Fomo Sponsor",
   fomoReferralClicked: "Fomo Referral Click",
 } as const;
 

@@ -226,27 +226,6 @@ export default function About() {
         </Column>
       </Row>
 
-      {/* Google Ads click-conversion event snippet */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            function gtagSendEvent(url) {
-              var callback = function () {
-                if (typeof url === 'string') {
-                  window.location = url;
-                }
-              };
-
-              gtag('event', 'ads_conversion_about_page_view', {
-                'event_callback': callback,
-                'event_timeout': 2000
-              });
-
-              return false;
-            }
-          `,
-        }}
-      />
     </Column>
   );
 }
