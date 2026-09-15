@@ -53,9 +53,9 @@ export const Header = () => {
         >
           <ToggleButton
             prefixIcon="person"
-            href="/app"
-            aria-label="Open the RokitG app"
-            selected={pathname.startsWith("/app")}
+            href="/about"
+            aria-label="Open the RokitG About Me Page"
+            selected={pathname.startsWith("/about")}
           />
         </Row>
         <Row fillWidth horizontal="center">
